@@ -12,7 +12,7 @@
             return null;
         }
 
-        public static bool TryResolveUrl(string url, IUtilityService utilityService)
+        public static bool TryResolveUrl(string url, ref AbstractUtilityService utilityService)
         {
             if (url.Contains("wuxia"))
                 utilityService = new UtilityWuxiaService();

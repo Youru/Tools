@@ -45,7 +45,7 @@ namespace Scrapping
                 Console.WriteLine("Url must be filled.");
                 hasError = true;
             }
-            else if (!UtilityServiceResolver.TryResolveUrl(url, generationService))
+            else if (!UtilityServiceResolver.TryResolveUrl(url,ref generationService))
             {
                 Console.WriteLine("This site is not supported.");
                 hasError = true;
