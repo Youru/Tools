@@ -20,7 +20,7 @@
   [
     {
       "Resolve" : "weedsroyalroad.wordpress.com",           ==> Site hostname 
-      "ContentSelector" : ".article-wrapper",               ==> Selector to get the chapter
+      "ContentSelector" : ".article-wrapper",               ==> Selector to get the chapter links
       "LinkSelector" : ".entry-content a",                  ==> Selector to get the link on TOC
       "NameSelector" : ".site-branding .site-description",  ==> Selector to get the name of the book (folder name will be create with it)
       "WrongParts" : []                                     
