@@ -1,6 +1,6 @@
 # Tools
 Scrapping :
-  Tool for get online book from Table of content 
+  Tool to get online book from Table of content 
   
   Dependency : 
     - Anglesharp
