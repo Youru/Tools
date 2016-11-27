@@ -1,27 +1,52 @@
-﻿namespace Scrapping
+﻿using Newtonsoft.Json;
+using Scrapping.Model;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System;
+
+namespace Scrapping
 {
     public static class UtilityServiceResolver
     {
-        public static IUtilityService ResolveUrl(string url)
+
+        public static bool TryResolveUrl(string url, ref AbstractUtilityService utilityService, List<Site> sites = null)
+        {
+            utilityService = ResolveUrl(url);
+
+            if (utilityService == null && sites != null && sites.Count > 0)
+            {
+                utilityService = ResolveUrlWithAdditionalSite(sites, url);
+            }
+
+            return utilityService != null;
+        }
+
+        public static AbstractUtilityService ResolveUrl(string url)
         {
             if (url.Contains("wuxia"))
                 return new UtilityWuxiaService();
             else if (url.Contains("translationnations.com"))
                 return new UtilityTranslationService();
+            else if (url.Contains("royalroadweed.blogspot.fr/"))
+                return new UtilityRoyalroadWeedService();
 
             return null;
         }
 
-        public static bool TryResolveUrl(string url, ref AbstractUtilityService utilityService)
+        private static AbstractUtilityService ResolveUrlWithAdditionalSite(List<Site> sites, string url)
         {
-            if (url.Contains("wuxia"))
-                utilityService = new UtilityWuxiaService();
-            else if (url.Contains("translationnations.com"))
-                utilityService = new UtilityTranslationService();
-            else
-                utilityService = null;
+            foreach (var site in sites)
+            {
+                if (url.Contains(site.Resolve))
+                {
+                    return new AdditionnalSiteUtilityService(site.ContentSelector, site.LinkSelector, site.NameSelector, site.WrongParts);
+                }
+            }
 
-            return utilityService != null;
+            return null;
         }
+
+
     }
 }

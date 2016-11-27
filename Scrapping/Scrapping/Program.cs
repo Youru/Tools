@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Scrapping
@@ -10,9 +11,11 @@ namespace Scrapping
         private static string url;
         private static int fromChapterNumber;
         private static AbstractUtilityService generationService;
+        private static DocumentService documentService;
 
         public static void Main(string[] args)
         {
+            documentService = new DocumentService();
             Execute(args).Wait();
         }
 
@@ -40,12 +43,13 @@ namespace Scrapping
         private static bool HasError()
         {
             bool hasError = false;
+            var sites = documentService.GetAdditionnalSites().ToList();
             if (String.IsNullOrEmpty(url))
             {
                 Console.WriteLine("Url must be filled.");
                 hasError = true;
             }
-            else if (!UtilityServiceResolver.TryResolveUrl(url,ref generationService))
+            else if (!UtilityServiceResolver.TryResolveUrl(url, ref generationService, sites))
             {
                 Console.WriteLine("This site is not supported.");
                 hasError = true;
@@ -56,13 +60,27 @@ namespace Scrapping
 
         private static void GenerateBook(List<Model.Link> links, string folderName)
         {
-            var document = new DocumentService();
-            document.CreateNewFolder(folderName);
+            documentService.CreateNewFolder(folderName);
+            var linksToDownload = RemoveLinksAlreadyDownload(links, folderName);
 
-            Parallel.ForEach(links, currentLink =>
+            Parallel.ForEach(linksToDownload, currentLink =>
             {
                 generationService.GenerateFileFromElements(currentLink, folderName);
             });
+        }
+
+        private static List<Model.Link> RemoveLinksAlreadyDownload(List<Model.Link> links, string folderName)
+        {
+            var paths = documentService.GetAllPath(folderName);
+            if (paths.Length > 0)
+            {
+                foreach (var path in paths)
+                {
+                    links.RemoveAll(l => path.Contains(l.Name));
+                }
+            }
+
+            return links;
         }
     }
 }

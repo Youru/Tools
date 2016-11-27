@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using Scrapping.Model;
+using Newtonsoft.Json;
 
 namespace Scrapping
 {
@@ -29,5 +29,25 @@ namespace Scrapping
                 Console.WriteLine(String.Format("The generation of the {0} has encoutered an issue. ERROR : {1}", fileName, ex.Message));
             }
         }
+
+        public string[] GetAllPath(string folderName)
+        {
+            var currentPath = Directory.GetCurrentDirectory();
+            return Directory.GetFiles(currentPath + "\\" + folderName);
+        }
+
+        public IEnumerable<Site> GetAdditionnalSites()
+        {
+            var pathFile = $"{Directory.GetCurrentDirectory()}\\sites.json";
+            if (File.Exists(pathFile))
+            {
+                return JsonConvert.DeserializeObject<IEnumerable<Site>>(File.ReadAllText(pathFile));
+            }
+            else
+            {
+                return new List<Site>();
+            }
+        }
+
     }
 }

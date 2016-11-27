@@ -26,6 +26,7 @@ namespace TestScrapping
         [Theory]
         [InlineData("http://www.wuxiaworld.com/tdg-index/tdg-chapter-330/", "div[itemprop='articleBody'] p:not(:first-child):not(:last-child)")]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/st-book-16-chapter-33/", ".entry-content p u,.entry-content u ul,.entry-content p:not(:first-child):not(:last-child)")]
+        [InlineData("http://royalroadweed.blogspot.fr/2014/11/volume-1-chapter-1.html", ".cover span")]
         public async void ShouldGetContent(string link, string selector)
         {
             var scrapping = new AngleScrapService();
@@ -48,7 +49,7 @@ namespace TestScrapping
         }
 
         [Fact]
-        public void ShouldGetGeneratioTranslationService()
+        public void ShouldGetGenerationTranslationService()
         {
             IUtilityService generationService;
             generationService = UtilityServiceResolver.ResolveUrl("translationnations.com/translations/stellar-transformations/");
@@ -56,9 +57,19 @@ namespace TestScrapping
             Check.That(generationService).IsInstanceOf<UtilityTranslationService>();
         }
 
+        [Fact]
+        public void ShouldGetGenerationRoyalroadWeedService()
+        {
+            IUtilityService generationService;
+            generationService = UtilityServiceResolver.ResolveUrl("royalroadweed.blogspot.fr/2014/11/toc.html");
+
+            Check.That(generationService).IsInstanceOf<UtilityRoyalroadWeedService>();
+        }
+
         [Theory]
         [InlineData("http://www.wuxiaworld.com/tdg-index/", 350)]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/", 380)]
+        [InlineData("http://royalroadweed.blogspot.fr/2014/11/toc.html", 150)]
         public async void ShouldGetLinks(string url, int fromChapterNumber)
         {
             IUtilityService generationService;
@@ -72,6 +83,7 @@ namespace TestScrapping
         [Theory]
         [InlineData("http://www.wuxiaworld.com/tdg-index/")]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/")]
+        [InlineData("http://royalroadweed.blogspot.fr/2014/11/toc.html")]
         public async void ShouldGetName(string url)
         {
             IUtilityService generationService;

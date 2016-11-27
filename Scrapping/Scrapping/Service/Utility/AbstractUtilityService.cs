@@ -34,7 +34,7 @@ namespace Scrapping
             return elements.Select(e => new Link()
             {
                 Href = e.GetAttribute("href"),
-                Name = ReplaceUnauthorizedCharacter(((IHtmlAnchorElement)e).PathName)
+                Name = ReplaceUnauthorizedCharacter(((IHtmlAnchorElement)e).PathName, "[?|:|\"|\\n|/|/]")
             }).Skip(0).ToList();
         }
 
@@ -44,12 +44,11 @@ namespace Scrapping
             IBrowsingContext context = angleScrapService.GetContext();
             var element = await angleScrapService.GetElement(context, url, NameSelector);
 
-            return element.TextContent;
+            return ReplaceUnauthorizedCharacter(element.TextContent, "[?|:|\"|\\n|/|/]");
         }
 
-        private string ReplaceUnauthorizedCharacter(string textContent)
+        private string ReplaceUnauthorizedCharacter(string textContent, string pattern)
         {
-            string pattern = "[?|:|\"|\\n|/|/]";
             string replacement = "";
             Regex rgx = new Regex(pattern);
             return rgx.Replace(textContent, replacement);
