@@ -76,6 +76,7 @@
     <Compile Include="Service\Utility\AbstractUtilityService.cs" />
     <Compile Include="Service\Utility\UtilityRoyalroadWeedService .cs" />
     <Compile Include="Service\Utility\UtilityTranslationService.cs" />
+    <Compile Include="Service\Utility\UtilityLectureEnLigneService.cs" />
     <Compile Include="UtilityServiceResolver.cs" />
     <Compile Include="Interface\IUtilityService.cs" />
     <Compile Include="Model\Link.cs" />

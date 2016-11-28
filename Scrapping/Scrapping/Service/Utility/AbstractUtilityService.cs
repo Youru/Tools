@@ -35,7 +35,7 @@ namespace Scrapping
             {
                 Href = e.GetAttribute("href"),
                 Name = ReplaceUnauthorizedCharacter(((IHtmlAnchorElement)e).PathName, "[?|:|\"|\\n|/|/]")
-            }).Skip(0).ToList();
+            }).Skip(fromChapterNumber).ToList();
         }
 
         public async Task<string> GetMangaName(string url)
@@ -47,14 +47,7 @@ namespace Scrapping
             return ReplaceUnauthorizedCharacter(element.TextContent, "[?|:|\"|\\n|/|/]");
         }
 
-        private string ReplaceUnauthorizedCharacter(string textContent, string pattern)
-        {
-            string replacement = "";
-            Regex rgx = new Regex(pattern);
-            return rgx.Replace(textContent, replacement);
-        }
-
-        private async Task InnerGenerateFileFromElements(Link link, string folderName)
+        protected virtual async Task InnerGenerateFileFromElements(Link link, string folderName)
         {
             var document = new DocumentService();
             var angleScrapService = new AngleScrapService();
@@ -77,6 +70,13 @@ namespace Scrapping
                 Trace.TraceError(ex.Message);
             }
 
+        }
+
+        private string ReplaceUnauthorizedCharacter(string textContent, string pattern)
+        {
+            string replacement = "";
+            Regex rgx = new Regex(pattern);
+            return rgx.Replace(textContent, replacement);
         }
 
         private bool IfElementContainsWrongPart(IElement element)

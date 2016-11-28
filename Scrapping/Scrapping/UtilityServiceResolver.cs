@@ -12,13 +12,16 @@ namespace Scrapping
 
         public static bool TryResolveUrl(string url, ref AbstractUtilityService utilityService, List<Site> sites = null)
         {
-            utilityService = ResolveUrl(url);
-
-            if (utilityService == null && sites != null && sites.Count > 0)
+            if (sites != null && sites.Count > 0)
             {
                 utilityService = ResolveUrlWithAdditionalSite(sites, url);
             }
 
+            if (utilityService == null)
+            {
+                utilityService = ResolveUrl(url);
+            }
+            
             return utilityService != null;
         }
 
@@ -30,7 +33,8 @@ namespace Scrapping
                 return new UtilityTranslationService();
             else if (url.Contains("royalroadweed.blogspot.fr/"))
                 return new UtilityRoyalroadWeedService();
-
+            else if (url.Contains("lecture-en-ligne.com"))
+                return new UtilityLectureEnLigneService();
             return null;
         }
 

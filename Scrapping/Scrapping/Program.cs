@@ -25,7 +25,7 @@ namespace Scrapping
 
             if (Parser.Default.ParseArguments(args, options))
             {
-                fromChapterNumber = options.FromChapterNumber ?? 0;
+                fromChapterNumber = (options.FromChapterNumber.HasValue && options.FromChapterNumber.Value > 1) ? options.FromChapterNumber.Value - 1 : 0;
                 url = options.Url;
             }
 

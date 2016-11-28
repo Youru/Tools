@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using Scrapping.Model;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Scrapping
 {
@@ -23,6 +24,23 @@ namespace Scrapping
             try
             {
                 File.WriteAllText(filePath, texte.ToString(), Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(String.Format("The generation of the {0} has encoutered an issue. ERROR : {1}", fileName, ex.Message));
+            }
+        }
+
+        public void DownloadNewPicture(string folderName, string fileName, string url)
+        {
+            string filePath = String.Format("{0}\\{1}\\{2}.jpg", Directory.GetCurrentDirectory(), folderName, fileName);
+
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFileAsync(new Uri(url), filePath);
+                }
             }
             catch (Exception ex)
             {
