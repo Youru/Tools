@@ -10,7 +10,7 @@ namespace Scrapping
     public static class UtilityServiceResolver
     {
 
-        public static bool TryResolveUrl(string url, ref AbstractUtilityService utilityService, List<Site> sites = null)
+        public static bool TryResolveUrl(string url, ref IUtilityService utilityService, List<Site> sites = null)
         {
             if (sites != null && sites.Count > 0)
             {
@@ -25,7 +25,7 @@ namespace Scrapping
             return utilityService != null;
         }
 
-        public static AbstractUtilityService ResolveUrl(string url)
+        public static IUtilityService ResolveUrl(string url)
         {
             if (url.Contains("wuxia"))
                 return new UtilityWuxiaService();
@@ -35,10 +35,12 @@ namespace Scrapping
                 return new UtilityRoyalroadWeedService();
             else if (url.Contains("lecture-en-ligne.com"))
                 return new UtilityLectureEnLigneService();
+            else if (url.Contains("mangareader.net"))
+                return new UtilityMangaReaderService();
             return null;
         }
 
-        private static AbstractUtilityService ResolveUrlWithAdditionalSite(List<Site> sites, string url)
+        private static IUtilityService ResolveUrlWithAdditionalSite(List<Site> sites, string url)
         {
             foreach (var site in sites)
             {

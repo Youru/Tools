@@ -1,6 +1,6 @@
 ﻿namespace Scrapping
 {
-    public class UtilityWuxiaService : AbstractUtilityService
+    public class UtilityWuxiaService : AbstractNovelUtilityService
     {
         public UtilityWuxiaService()
         {

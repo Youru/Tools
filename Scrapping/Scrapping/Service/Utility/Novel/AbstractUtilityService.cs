@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public class AbstractUtilityService : IUtilityService
+    public class AbstractNovelUtilityService : IUtilityService
     {
         protected string ContentSelector;
         protected string LinkSelector;

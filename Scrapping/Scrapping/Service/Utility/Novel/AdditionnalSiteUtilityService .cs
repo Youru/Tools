@@ -1,6 +1,6 @@
 ﻿namespace Scrapping
 {
-    public class AdditionnalSiteUtilityService : AbstractUtilityService
+    public class AdditionnalSiteUtilityService : AbstractNovelUtilityService
     {
 
         public AdditionnalSiteUtilityService(string contentSelector, string linkSelector, string nameSelector, string[] wrongParts)

@@ -10,7 +10,7 @@ namespace Scrapping
     {
         private static string url;
         private static int fromChapterNumber;
-        private static AbstractUtilityService generationService;
+        private static IUtilityService generationService;
         private static DocumentService documentService;
 
         public static void Main(string[] args)

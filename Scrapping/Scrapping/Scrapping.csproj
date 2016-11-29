@@ -72,18 +72,20 @@
     <Compile Include="Model\Site.cs" />
     <Compile Include="Service\DocumentService.cs" />
     <Compile Include="Service\ParseCommandeService.cs" />
-    <Compile Include="Service\Utility\AdditionnalSiteUtilityService .cs" />
-    <Compile Include="Service\Utility\AbstractUtilityService.cs" />
-    <Compile Include="Service\Utility\UtilityRoyalroadWeedService .cs" />
-    <Compile Include="Service\Utility\UtilityTranslationService.cs" />
-    <Compile Include="Service\Utility\UtilityLectureEnLigneService.cs" />
+    <Compile Include="Service\Utility\Novel\AdditionnalSiteUtilityService .cs" />
+    <Compile Include="Service\Utility\Novel\AbstractUtilityService.cs" />
+    <Compile Include="Service\Utility\Novel\UtilityRoyalroadWeedService .cs" />
+    <Compile Include="Service\Utility\Novel\UtilityTranslationService.cs" />
+    <Compile Include="Service\Utility\Scan\AbstractScanUtilityService .cs" />
+    <Compile Include="Service\Utility\Scan\UtilityMangaReaderService.cs" />
+    <Compile Include="Service\Utility\Scan\UtilityLectureEnLigneService.cs" />
     <Compile Include="UtilityServiceResolver.cs" />
     <Compile Include="Interface\IUtilityService.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AngleScrapservice.cs" />
-    <Compile Include="Service\Utility\UtilityWuxiaService.cs" />
+    <Compile Include="Service\Utility\Novel\UtilityWuxiaService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

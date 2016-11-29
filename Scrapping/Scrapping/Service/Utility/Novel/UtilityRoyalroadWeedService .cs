@@ -1,6 +1,6 @@
 ﻿namespace Scrapping
 {
-    public class UtilityRoyalroadWeedService : AbstractUtilityService
+    public class UtilityRoyalroadWeedService : AbstractNovelUtilityService
     {
         public UtilityRoyalroadWeedService()
         {

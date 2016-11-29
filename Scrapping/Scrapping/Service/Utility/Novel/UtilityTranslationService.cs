@@ -1,6 +1,6 @@
 ﻿namespace Scrapping
 {
-    public class UtilityTranslationService : AbstractUtilityService
+    public class UtilityTranslationService : AbstractNovelUtilityService
     {
         public UtilityTranslationService()
         {
