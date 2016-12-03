@@ -59,6 +59,10 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StructureMap, Version=4.4.2.472, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.4.2\lib\net45\StructureMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,26 +73,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IProcessGeneration.cs" />
     <Compile Include="Model\Site.cs" />
+    <Compile Include="BootStrapper.cs" />
+    <Compile Include="ProcessGeneration.cs" />
     <Compile Include="Service\DocumentService.cs" />
+    <Compile Include="Service\Interface\IDocumentService.cs" />
+    <Compile Include="Service\Interface\IAngleScrapService.cs" />
+    <Compile Include="Service\Interface\IRegexService.cs" />
     <Compile Include="Service\ParseCommandeService.cs" />
-    <Compile Include="Service\Utility\Novel\AdditionnalSiteUtilityService .cs" />
-    <Compile Include="Service\Utility\Novel\AbstractUtilityService.cs" />
-    <Compile Include="Service\Utility\Novel\UtilityRoyalroadWeedService .cs" />
-    <Compile Include="Service\Utility\Novel\UtilityTranslationService.cs" />
-    <Compile Include="Service\Utility\Scan\AbstractScanUtilityService .cs" />
-    <Compile Include="Service\Utility\Scan\UtilityMangaReaderService.cs" />
+    <Compile Include="Service\RegexService.cs" />
+    <Compile Include="BaseRegistry.cs" />
+    <Compile Include="Service\Utility\AbstractSiteUtilityService .cs" />
+    <Compile Include="Service\Utility\Novel\GenericNovelUtilityService.cs" />
+    <Compile Include="Service\Utility\Scan\GenericScanUtilityService.cs" />
     <Compile Include="Service\Utility\Scan\UtilityLectureEnLigneService.cs" />
-    <Compile Include="UtilityServiceResolver.cs" />
     <Compile Include="Interface\IUtilityService.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AngleScrapservice.cs" />
-    <Compile Include="Service\Utility\Novel\UtilityWuxiaService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="DataSource\sites.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

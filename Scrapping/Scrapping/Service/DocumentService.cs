@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Scrapping
 {
-    public class DocumentService
+    public class DocumentService : IDocumentService
     {
         public void CreateNewFolder(string folderName)
         {
@@ -28,6 +28,7 @@ namespace Scrapping
             catch (Exception ex)
             {
                 Console.WriteLine(String.Format("The generation of the {0} has encoutered an issue. ERROR : {1}", fileName, ex.Message));
+                throw (ex);
             }
         }
 
@@ -39,12 +40,13 @@ namespace Scrapping
             {
                 using (WebClient client = new WebClient())
                 {
-                    client.DownloadFileAsync(new Uri(url), filePath);
+                    client.DownloadFile(new Uri(url), filePath);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(String.Format("The generation of the {0} has encoutered an issue. ERROR : {1}", fileName, ex.Message));
+                throw (ex);
             }
         }
 
@@ -52,6 +54,19 @@ namespace Scrapping
         {
             var currentPath = Directory.GetCurrentDirectory();
             return Directory.GetFiles(currentPath + "\\" + folderName);
+        }
+
+        public IEnumerable<Site> GetSites()
+        {
+            var pathFile = $"{AppDomain.CurrentDomain.BaseDirectory}\\DataSource\\sites.json";
+            if (File.Exists(pathFile))
+            {
+                return JsonConvert.DeserializeObject<IEnumerable<Site>>(File.ReadAllText(pathFile));
+            }
+            else
+            {
+                return new List<Site>();
+            }
         }
 
         public IEnumerable<Site> GetAdditionnalSites()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public class AngleScrapService
+    public class AngleScrapService : IAngleScrapService
     {
         public IBrowsingContext GetContext()
         {

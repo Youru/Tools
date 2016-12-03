@@ -1,0 +1,65 @@
+﻿[
+  {
+    "Resolve": "weedsroyalroad.wordpress.com",
+    "ContentSelector": ".article-wrapper",
+    "LinkSelector": ".entry-content a",
+    "NameSelector": ".site-branding .site-description",
+    "WrongParts": [ ],
+    "Type": "novel"
+  }
+,
+  {
+    "Resolve": "wuxiaworld.com",
+    "ContentSelector": "div[itemprop='articleBody'] p:not(:first-child):not(:last-child)",
+    "LinkSelector": "div[itemprop='articleBody'] a",
+    "NameSelector": "header > h1",
+    "WrongParts": [ "Previous Chapter", "Teaser for Next Chapter" ],
+    "Type": "novel"
+  }
+,
+  {
+    "Resolve": "translationnations.com",
+    "ContentSelector": ".entry-content p u,.entry-content u ul,.entry-content p:not(:first-child):not(:last-child)",
+    "LinkSelector": ".entry-content a",
+    "NameSelector": ".entry-header > h1",
+    "WrongParts": [ "Translated by", "Edited by" ],
+    "Type": "novel"
+  }
+,
+  {
+    "Resolve": "royalroadweed.blogspot.fr/",
+    "ContentSelector": ".pagepost .cover,#content .post-content",
+    "LinkSelector": ".cover div a:first-child",
+    "NameSelector": ".title>h2>a",
+    "WrongParts": [],
+    "Type": "novel"
+  }
+,
+  {
+    "Resolve": "lecture-en-ligne.com",
+    "ContentSelector": "#image",
+    "LinkSelector": ".accueil a",
+    "NameSelector": "#contenu h2",
+    "WrongParts": [ ],
+    "PageSelector": "#reader",
+    "ListPageSelector": "#head:first-child .pages option",
+    "ChapterNameSelector": "h3",
+    "PatternPageNumber": "\\d+.html",
+    "PatternChapterNumber": "page \\d+",
+    "Type": "lec"
+  }
+,
+  {
+    "Resolve": "mangareader.net",
+    "ContentSelector": "#img",
+    "LinkSelector": "#chapterlist a",
+    "NameSelector": "#mangaproperties .aname",
+    "WrongParts": [ ],
+    "PageSelector": "#topchapter",
+    "ListPageSelector": "#selectpage option",
+    "ChapterNameSelector": "#mangainfo div:first-child",
+    "PatternPageNumber": "\\d+.html",
+    "PatternChapterNumber": "Page \\d+",
+    "Type": "scan"
+  }
+]

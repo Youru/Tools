@@ -41,6 +41,7 @@
       <HintPath>..\packages\NFluent.1.3.1.0\lib\net40\NFluent.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="StructureMap, Version=4.4.2.472, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -67,7 +68,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScrappingTest.cs" />
+    <Compile Include="DocumentServiceTest.cs" />
+    <Compile Include="ProcessIntegrationTest.cs" />
+    <Compile Include="UtilityServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
