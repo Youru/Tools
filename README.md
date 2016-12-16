@@ -5,6 +5,7 @@
 - Anglesharp
 - Commandline
 - Newtonjsoft
+- Structure Map
     
 ###Usage : Go to the folder where is the scrapping exe 
 ```
@@ -14,7 +15,7 @@
 ###Additional : 
 - Add other site or selector :
 ```
-    Create sites.json file on the same folder than scrapping exe
+    Update sites.json file on Datasource
     
   Format : 
   [
