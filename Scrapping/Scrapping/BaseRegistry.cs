@@ -1,8 +1,6 @@
 ﻿using StructureMap;
 using Scrapping.Service.Interface;
 using Scrapping.Service;
-using Scrapping;
-using Scrapping.Model;
 
 namespace Scrapping
 {
@@ -14,9 +12,9 @@ namespace Scrapping
             this.For<IAngleScrapService>().Use<AngleScrapService>();
             this.For<IDocumentService>().Use<DocumentService>();
             this.For<IProcessGeneration>().Use<ProcessGeneration>();
-            this.For<IUtilityService>().Use<GenericScanUtilityService>().Named("scan");
-            this.For<IUtilityService>().Use<GenericNovelUtilityService>().Named("novel");
-            this.For<IUtilityService>().Use<UtilityLectureEnLigneService>().Named("lec");
+            this.For<ISiteService>().Use<GenericScanSiteService>().Named("scan");
+            this.For<ISiteService>().Use<GenericNovelSiteService>().Named("novel");
+            this.For<ISiteService>().Use<LectureEnLigneSiteService>().Named("lec");
         }
     }
 }

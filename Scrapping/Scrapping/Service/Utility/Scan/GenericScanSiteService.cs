@@ -1,5 +1,4 @@
 ﻿using AngleSharp;
-using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
 using Scrapping.Model;
 using Scrapping.Service.Interface;
@@ -8,18 +7,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public class GenericNovelUtilityService : AbstractSiteUtilityService
+    public class GenericScanSiteService : AbstractSiteService
     {
         private IRegexService _regexService;
         private IAngleScrapService _angleScrapService;
         private IDocumentService _documentService;
 
-        public GenericNovelUtilityService(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService)
+        public GenericScanSiteService(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService)
         {
             _regexService = regexService;
             _angleScrapService = angleScrapService;
@@ -28,15 +26,23 @@ namespace Scrapping
 
         public override async Task<List<Link>> GetAllLinks(string url, int fromChapterNumber)
         {
-
+            var links = new List<Link>();
             IBrowsingContext context = _angleScrapService.GetContext();
             var elements = await _angleScrapService.GetElements(context, url, Site.LinkSelector);
 
-            return elements.Select(e => new Link()
+            foreach (var element in elements.Skip(fromChapterNumber))
             {
-                Href = e.GetAttribute("href"),
-                Name = _regexService.ReplaceContent(((IHtmlAnchorElement)e).PathName, "", "[?|:|\"|\\n|/|/]")
-            }).Skip(fromChapterNumber).ToList();
+                var elem = element as IHtmlAnchorElement;
+                var page = await _angleScrapService.GetElement(context, elem.Href, Site.PageSelector);
+                if (page != null)
+                {
+                    var pages = page.QuerySelectorAll(Site.ListPageSelector);
+                    var chapterName = page.QuerySelector(Site.ChapterNameSelector);
+                    pages.ToList().ForEach(p => links.Add(new Link() { Href = _regexService.ReplaceContentWithPreText(elem.Href, p.TextContent, Site.PatternPageNumber), Name = _regexService.ReplaceContentWithPostText(_regexService.ReplaceContent(chapterName.TextContent, "", "[?|:|\"|\\n|/|/]"), p.TextContent, Site.PatternChapterNumber) }));
+                }
+            }
+
+            return links;
         }
 
         public override async Task<string> GetMangaName(string url)
@@ -54,29 +60,17 @@ namespace Scrapping
 
             try
             {
-                var elements = await _angleScrapService.GetElements(context, link.Href, Site.ContentSelector);
-                elements.Where(e => !IfElementContainsWrongPart(e)).ToList().ForEach(e => text.Append(e.OuterHtml));
+                var element = (IHtmlImageElement)await _angleScrapService.GetElement(context, link.Href, Site.ContentSelector);
 
-                if (text.Length > 0)
+                if (!String.IsNullOrEmpty(element.Source))
                 {
-                    _documentService.FillNewDocument(folderName, link.Name, text);
+                    _documentService.DownloadNewPicture(folderName, link.Name, element.Source);
                 }
             }
             catch (Exception ex)
             {
                 Trace.TraceError(ex.Message);
             }
-
-        }
-
-        private bool IfElementContainsWrongPart(IElement element)
-        {
-            foreach (var wrongPart in Site.WrongParts)
-            {
-                if (element.InnerHtml.Contains(wrongPart))
-                    return true;
-            }
-            return false;
         }
     }
 }

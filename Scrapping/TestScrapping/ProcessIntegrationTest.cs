@@ -2,7 +2,6 @@
 using NFluent;
 using Scrapping;
 using AngleSharp;
-using AngleSharp.Dom;
 using System.Text;
 using System.Linq;
 using Scrapping.Model;
@@ -57,10 +56,10 @@ namespace TestScrapping
         [InlineData("https://lecture-en-ligne.com/manga/combatcontinentdouluodalu/", 40)]
         public async void Should_Get_Links(string url, int fromChapterNumber)
         {
-            IUtilityService generationService;
+            ISiteService generationService;
             var documentService = new DocumentService();
             var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
-            generationService = Bootstrapper.ContainerTool.GetInstance<IUtilityService>(site.Type);
+            generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
             generationService.SetSite(site);
 
             var links = await generationService.GetAllLinks(url, fromChapterNumber);
@@ -76,10 +75,10 @@ namespace TestScrapping
         [InlineData("https://lecture-en-ligne.com/manga/combatcontinentdouluodalu/")]
         public async void Should_Get_Name(string url)
         {
-            IUtilityService generationService;
+            ISiteService generationService;
             var documentService = new DocumentService();
             var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
-            generationService = Bootstrapper.ContainerTool.GetInstance<IUtilityService>(site.Type);
+            generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
             generationService.SetSite(site);
 
             var name = await generationService.GetMangaName(url);
@@ -95,12 +94,12 @@ namespace TestScrapping
         [InlineData("https://lecture-en-ligne.com/combatcontinentdouluodalu/49/0/0/1.html", "chapter 49")]
         public void Should_Generate_Link(string url, string name)
         {
-            IUtilityService generationService;
+            ISiteService generationService;
             var link = new Link() { Href = url, Name = name };
             var folderName = "toto";
             var documentService = new DocumentService();
             var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
-            generationService = Bootstrapper.ContainerTool.GetInstance<IUtilityService>(site.Type);
+            generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
             generationService.SetSite(site);
 
             generationService.GenerateFileFromElements(link, folderName);

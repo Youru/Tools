@@ -1,11 +1,6 @@
 ﻿using Xunit;
 using NFluent;
 using Scrapping;
-using AngleSharp;
-using AngleSharp.Dom;
-using System.Text;
-using System.Linq;
-using Scrapping.Model;
 
 namespace TestScrapping
 {

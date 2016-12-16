@@ -84,11 +84,11 @@
     <Compile Include="Service\ParseCommandeService.cs" />
     <Compile Include="Service\RegexService.cs" />
     <Compile Include="BaseRegistry.cs" />
-    <Compile Include="Service\Utility\AbstractSiteUtilityService .cs" />
-    <Compile Include="Service\Utility\Novel\GenericNovelUtilityService.cs" />
-    <Compile Include="Service\Utility\Scan\GenericScanUtilityService.cs" />
-    <Compile Include="Service\Utility\Scan\UtilityLectureEnLigneService.cs" />
-    <Compile Include="Interface\IUtilityService.cs" />
+    <Compile Include="Service\Utility\AbstractSiteService .cs" />
+    <Compile Include="Service\Utility\Novel\GenericNovelSiteService.cs" />
+    <Compile Include="Service\Utility\Scan\GenericScanSiteService.cs" />
+    <Compile Include="Service\Utility\Scan\LectureEnLigneSiteService.cs" />
+    <Compile Include="Interface\ISiteService.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,4 @@
-﻿using Scrapping;
-using StructureMap;
-using System;
+﻿using StructureMap;
 namespace Scrapping
 {
     static public class Bootstrapper

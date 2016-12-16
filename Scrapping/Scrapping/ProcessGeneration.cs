@@ -3,7 +3,6 @@ using Scrapping.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Scrapping
@@ -15,7 +14,7 @@ namespace Scrapping
         private static int fromChapterNumber;
         private static Site site;
 
-        private static IUtilityService _generationService;
+        private static ISiteService _siteService;
         private static IDocumentService _documentService;
 
         public ProcessGeneration( IDocumentService documentService)
@@ -37,10 +36,10 @@ namespace Scrapping
             if (HasError())
                 return 0;
 
-            _generationService = Bootstrapper.ContainerTool.GetInstance<IUtilityService>(site.Type);
-            _generationService.SetSite(site);
-            var links = await _generationService.GetAllLinks(url, fromChapterNumber);
-            var folderName = await _generationService.GetMangaName(url);
+            _siteService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
+            _siteService.SetSite(site);
+            var links = await _siteService.GetAllLinks(url, fromChapterNumber);
+            var folderName = await _siteService.GetMangaName(url);
 
             GenerateBook(links, folderName);
 
@@ -64,18 +63,18 @@ namespace Scrapping
             return hasError;
         }
 
-        private static void GenerateBook(List<Model.Link> links, string folderName)
+        private static void GenerateBook(List<Link> links, string folderName)
         {
             _documentService.CreateNewFolder(folderName);
             var linksToDownload = RemoveLinksAlreadyDownload(links, folderName);
 
             Parallel.ForEach(linksToDownload, currentLink =>
             {
-                _generationService.GenerateFileFromElements(currentLink, folderName);
+                _siteService.GenerateFileFromElements(currentLink, folderName);
             });
         }
 
-        private static List<Model.Link> RemoveLinksAlreadyDownload(List<Model.Link> links, string folderName)
+        private static List<Link> RemoveLinksAlreadyDownload(List<Link> links, string folderName)
         {
             var paths = _documentService.GetAllPath(folderName);
             if (paths.Length > 0)

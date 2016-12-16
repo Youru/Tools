@@ -68,19 +68,5 @@ namespace Scrapping
                 return new List<Site>();
             }
         }
-
-        public IEnumerable<Site> GetAdditionnalSites()
-        {
-            var pathFile = $"{Directory.GetCurrentDirectory()}\\sites.json";
-            if (File.Exists(pathFile))
-            {
-                return JsonConvert.DeserializeObject<IEnumerable<Site>>(File.ReadAllText(pathFile));
-            }
-            else
-            {
-                return new List<Site>();
-            }
-        }
-
     }
 }
