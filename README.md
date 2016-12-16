@@ -7,7 +7,7 @@
 - Newtonjsoft
 - Structure Map
     
-###Usage : Go to the folder where is the scrapping exe 
+###Usage : Go to the folder where the scrapping exe is
 ```
     -u "http://royalroadweed.blogspot.fr/2014/11/toc.html"
     -u "http://royalroadweed.blogspot.fr/2014/11/toc.html" -f 150 (To start from the chapter/link 150)
