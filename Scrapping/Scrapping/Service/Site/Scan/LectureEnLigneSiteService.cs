@@ -4,7 +4,6 @@ using Scrapping.Model;
 using AngleSharp;
 using System.Linq;
 using AngleSharp.Dom.Html;
-using Scrapping.Service.Interface;
 
 namespace Scrapping
 {

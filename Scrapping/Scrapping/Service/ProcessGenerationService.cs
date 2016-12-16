@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public class ProcessGeneration : IProcessGeneration
+    public class ProcessGenerationService : IProcessGenerationService
     {
 
         private static string url;
@@ -17,7 +17,7 @@ namespace Scrapping
         private static ISiteService _siteService;
         private static IDocumentService _documentService;
 
-        public ProcessGeneration( IDocumentService documentService)
+        public ProcessGenerationService( IDocumentService documentService)
         {
             _documentService = Bootstrapper.ContainerTool.GetInstance<IDocumentService>();
         }

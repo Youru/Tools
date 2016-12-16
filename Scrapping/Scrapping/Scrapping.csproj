@@ -73,21 +73,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IProcessGeneration.cs" />
+    <Compile Include="Interface\IProcessGenerationService.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="BootStrapper.cs" />
-    <Compile Include="ProcessGeneration.cs" />
+    <Compile Include="Service\ProcessGenerationService.cs" />
     <Compile Include="Service\DocumentService.cs" />
-    <Compile Include="Service\Interface\IDocumentService.cs" />
-    <Compile Include="Service\Interface\IAngleScrapService.cs" />
-    <Compile Include="Service\Interface\IRegexService.cs" />
+    <Compile Include="Interface\IDocumentService.cs" />
+    <Compile Include="Interface\IAngleScrapService.cs" />
+    <Compile Include="Interface\IRegexService.cs" />
     <Compile Include="Service\ParseCommandeService.cs" />
     <Compile Include="Service\RegexService.cs" />
     <Compile Include="BaseRegistry.cs" />
-    <Compile Include="Service\Utility\AbstractSiteService .cs" />
-    <Compile Include="Service\Utility\Novel\GenericNovelSiteService.cs" />
-    <Compile Include="Service\Utility\Scan\GenericScanSiteService.cs" />
-    <Compile Include="Service\Utility\Scan\LectureEnLigneSiteService.cs" />
+    <Compile Include="Service\Site\AbstractSiteService .cs" />
+    <Compile Include="Service\Site\Novel\GenericNovelSiteService.cs" />
+    <Compile Include="Service\Site\Scan\GenericScanSiteService.cs" />
+    <Compile Include="Service\Site\Scan\LectureEnLigneSiteService.cs" />
     <Compile Include="Interface\ISiteService.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Program.cs" />

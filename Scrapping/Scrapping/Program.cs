@@ -11,7 +11,7 @@ namespace Scrapping
 
         public static async Task<int> Execute(string[] args)
         {
-            IProcessGeneration process = Bootstrapper.ContainerTool.GetInstance<IProcessGeneration>();
+            IProcessGenerationService process = Bootstrapper.ContainerTool.GetInstance<IProcessGenerationService>();
             return await process.Process(args);
         }
     }

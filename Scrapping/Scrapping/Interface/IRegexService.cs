@@ -1,5 +1,5 @@
 ﻿
-namespace Scrapping.Service.Interface
+namespace Scrapping
 {
     public interface IRegexService
     {

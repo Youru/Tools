@@ -17,7 +17,7 @@ namespace TestScrapping
         public async void Should_Access_Site(string url, int fromChapterNumber)
         {
             string[] args = { "-u", url, "-f", fromChapterNumber.ToString() };
-            IProcessGeneration process = Bootstrapper.ContainerTool.GetInstance<IProcessGeneration>();
+            IProcessGenerationService process = Bootstrapper.ContainerTool.GetInstance<IProcessGenerationService>();
             int result = await process.Process(args);
             Check.That(result).IsEqualTo(1);
         }

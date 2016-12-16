@@ -1,7 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom.Html;
 using Scrapping.Model;
-using Scrapping.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
