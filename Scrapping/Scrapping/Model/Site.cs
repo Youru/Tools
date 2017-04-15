@@ -13,5 +13,6 @@
         public string PatternPageNumber;
         public string PatternChapterNumber;
         public string Type;
+        public string ChapterName;
     }
 }

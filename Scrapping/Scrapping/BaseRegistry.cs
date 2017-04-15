@@ -13,7 +13,7 @@ namespace Scrapping
             this.For<IProcessGenerationService>().Use<ProcessGenerationService>();
             this.For<ISiteService>().Use<GenericScanSiteService>().Named("scan");
             this.For<ISiteService>().Use<GenericNovelSiteService>().Named("novel");
-            this.For<ISiteService>().Use<LectureEnLigneSiteService>().Named("lec");
+            this.For<ISiteService>().Use<GravitytalesNovelSiteService>().Named("gravitytales");
         }
     }
 }

@@ -85,6 +85,7 @@
     <Compile Include="Service\RegexService.cs" />
     <Compile Include="BaseRegistry.cs" />
     <Compile Include="Service\Site\AbstractSiteService .cs" />
+    <Compile Include="Service\Site\Novel\GravitytalesNovelSiteService.cs" />
     <Compile Include="Service\Site\Novel\GenericNovelSiteService.cs" />
     <Compile Include="Service\Site\Scan\GenericScanSiteService.cs" />
     <Compile Include="Service\Site\Scan\LectureEnLigneSiteService.cs" />

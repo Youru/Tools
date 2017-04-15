@@ -37,39 +37,39 @@ namespace Scrapping
                 {
                     var pages = page.QuerySelectorAll(Site.ListPageSelector);
                     var chapterName = page.QuerySelector(Site.ChapterNameSelector);
-                    pages.ToList().ForEach(p => links.Add(new Link() { Href = _regexService.ReplaceContentWithPreText(elem.Href, p.TextContent, Site.PatternPageNumber), Name = _regexService.ReplaceContentWithPostText(_regexService.ReplaceContent(chapterName.TextContent, "", "[?|:|\"|\\n|/|/]"), p.TextContent, Site.PatternChapterNumber) }));
-                }
+                    pages.ToList().ForEach(p => links.Add(new Link() { Href = $"{elem.Href}/{p.TextContent}", Name = _regexService.ReplaceContentWithPostText(_regexService.ReplaceContent(chapterName.TextContent, "_", "[?|:|\"|\\n|/|/]"), p.TextContent, Site.PatternChapterNumber) }));
             }
+        }
 
             return links;
         }
 
-        public override async Task<string> GetMangaName(string url)
-        {
-            IBrowsingContext context = _angleScrapService.GetContext();
-            var element = await _angleScrapService.GetElement(context, url, Site.NameSelector);
+    public override async Task<string> GetMangaName(string url)
+    {
+        IBrowsingContext context = _angleScrapService.GetContext();
+        var element = await _angleScrapService.GetElement(context, url, Site.NameSelector);
 
-            return _regexService.ReplaceContent(element.TextContent, "", "[?|:|\"|\\n|/|/]");
+        return _regexService.ReplaceContent(element.TextContent, "", "[?|:|\"|\\n|/|/]");
+    }
+
+    protected override async Task InnerGenerateFileFromElements(Link link, string folderName)
+    {
+        IBrowsingContext context = _angleScrapService.GetContext();
+        StringBuilder text = new StringBuilder();
+
+        try
+        {
+            var element = (IHtmlImageElement)await _angleScrapService.GetElement(context, link.Href, Site.ContentSelector);
+
+            if (!String.IsNullOrEmpty(element.Source))
+            {
+                _documentService.DownloadNewPicture(folderName, link.Name, element.Source);
+            }
         }
-
-        protected override async Task InnerGenerateFileFromElements(Link link, string folderName)
+        catch (Exception ex)
         {
-            IBrowsingContext context = _angleScrapService.GetContext();
-            StringBuilder text = new StringBuilder();
-
-            try
-            {
-                var element = (IHtmlImageElement)await _angleScrapService.GetElement(context, link.Href, Site.ContentSelector);
-
-                if (!String.IsNullOrEmpty(element.Source))
-                {
-                    _documentService.DownloadNewPicture(folderName, link.Name, element.Source);
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError(ex.Message);
-            }
+            Trace.TraceError(ex.Message);
         }
     }
+}
 }

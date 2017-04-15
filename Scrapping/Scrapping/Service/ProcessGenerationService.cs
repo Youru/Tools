@@ -17,7 +17,7 @@ namespace Scrapping
         private static ISiteService _siteService;
         private static IDocumentService _documentService;
 
-        public ProcessGenerationService( IDocumentService documentService)
+        public ProcessGenerationService(IDocumentService documentService)
         {
             _documentService = Bootstrapper.ContainerTool.GetInstance<IDocumentService>();
         }
@@ -31,6 +31,7 @@ namespace Scrapping
                 fromChapterNumber = (options.FromChapterNumber.HasValue && options.FromChapterNumber.Value > 1) ? options.FromChapterNumber.Value - 1 : 0;
                 url = options.Url;
                 site = _documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
+                site.ChapterName = options.ChapterName;
             }
 
             if (HasError())
@@ -81,7 +82,8 @@ namespace Scrapping
             {
                 foreach (var path in paths)
                 {
-                    links.RemoveAll(l => path.Contains(l.Name));
+                    var title = path.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries).Last().Replace(".html", "");
+                    links.RemoveAll(l => l.Name == title);
                 }
             }
 
