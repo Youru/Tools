@@ -10,7 +10,7 @@ namespace Scrapping
         [Option('u',Required = true, HelpText = "Url of the book")]
         public string Url { get; set; }
 
-        [Option('c', Required = true, HelpText = "Chapter Name for gravitytale")]
+        [Option('c', DefaultValue = null, HelpText = "Chapter Name for gravitytale")]
         public string ChapterName { get; set; }
     }
 }

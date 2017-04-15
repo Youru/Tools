@@ -51,9 +51,8 @@ namespace TestScrapping
         [Theory]
         [InlineData("http://www.wuxiaworld.com/tdg-index/", 350)]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/", 380)]
-        [InlineData("http://royalroadweed.blogspot.fr/2014/11/toc.html", 150)]
+        [InlineData("http://royalroadweed.blogspot.fr/2017/01/moonlight-sculptor-table-of-content.html", 150)]
         [InlineData("http://www.mangareader.net/niflheim", 40)]
-        [InlineData("https://lecture-en-ligne.com/manga/combatcontinentdouluodalu/", 40)]
         public async void Should_Get_Links(string url, int fromChapterNumber)
         {
             ISiteService generationService;
@@ -70,9 +69,8 @@ namespace TestScrapping
         [Theory]
         [InlineData("http://www.wuxiaworld.com/tdg-index/")]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/")]
-        [InlineData("http://royalroadweed.blogspot.fr/2014/11/toc.html")]
+        [InlineData("http://royalroadweed.blogspot.fr/2017/01/moonlight-sculptor-table-of-content.html")]
         [InlineData("http://www.mangareader.net/niflheim")]
-        [InlineData("https://lecture-en-ligne.com/manga/combatcontinentdouluodalu/")]
         public async void Should_Get_Name(string url)
         {
             ISiteService generationService;
@@ -91,7 +89,6 @@ namespace TestScrapping
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/st-book-11-chapter-49/", "chapter 49")]
         [InlineData("http://royalroadweed.blogspot.fr/2014/11/volume-1-chapter-1.html", "chapter 1")]
         [InlineData("http://www.mangareader.net/niflheim/1", "chapter 1")]
-        [InlineData("https://lecture-en-ligne.com/combatcontinentdouluodalu/49/0/0/1.html", "chapter 49")]
         public void Should_Generate_Link(string url, string name)
         {
             ISiteService generationService;
