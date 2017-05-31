@@ -9,12 +9,15 @@
     
 ### Usage : Go to the folder where the scrapping exe is
 ```
-    -u "http://royalroadweed.blogspot.fr/2014/11/toc.html"
-    -u "http://royalroadweed.blogspot.fr/2014/11/toc.html" -f 150 (To start from the chapter/link 150)
+    General case
+    -u "http://www.wuxiaworld.com/wmw-index/"
+    -u "http://www.wuxiaworld.com/wmw-index/" -f 150 (To start from the chapter/link 150)
     
-    /!\ Specific gravitytales
+    
+    /!\ Specific gravitytales /!\ (Content added dynamically)
     -u "http://gravitytales.com/novel/the-kings-avatar/"  -c "tka-chapter-" -f 100 (Number of chapter to find)
-    ex : 
+    
+    Will get all chapters from
     http://gravitytales.com/novel/the-kings-avatar/tka-chapter-0 
     to 
     http://gravitytales.com/novel/the-kings-avatar/tka-chapter-100
