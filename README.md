@@ -1,18 +1,25 @@
 # Tools
-##Scrapping : Tool to get online book from Table of content 
+## Scrapping : Tool to get online book from Table of content 
   
-###Dependency : 
+### Dependency : 
 - Anglesharp
 - Commandline
 - Newtonjsoft
 - Structure Map
     
-###Usage : Go to the folder where the scrapping exe is
+### Usage : Go to the folder where the scrapping exe is
 ```
     -u "http://royalroadweed.blogspot.fr/2014/11/toc.html"
     -u "http://royalroadweed.blogspot.fr/2014/11/toc.html" -f 150 (To start from the chapter/link 150)
+    
+    /!\ Specific gravitytales
+    -u "http://gravitytales.com/novel/the-kings-avatar/"  -c "tka-chapter-" -f 100 (Number of chapter to find)
+    ex : 
+    http://gravitytales.com/novel/the-kings-avatar/tka-chapter-0 
+    to 
+    http://gravitytales.com/novel/the-kings-avatar/tka-chapter-100
 ```
-###Additional : 
+### Additional : 
 - Add other site or selector :
 ```
     Update sites.json file on Datasource
