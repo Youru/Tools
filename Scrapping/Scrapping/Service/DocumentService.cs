@@ -28,7 +28,7 @@ namespace Scrapping
             catch (Exception ex)
             {
                 Console.WriteLine(String.Format("The generation of the {0} has encoutered an issue. ERROR : {1}", fileName, ex.Message));
-                throw (ex);
+                throw;
             }
         }
 
@@ -46,7 +46,7 @@ namespace Scrapping
             catch (Exception ex)
             {
                 Console.WriteLine(String.Format("The generation of the {0} has encoutered an issue. ERROR : {1}", fileName, ex.Message));
-                throw (ex);
+                throw;
             }
         }
 
