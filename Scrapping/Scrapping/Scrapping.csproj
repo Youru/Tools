@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IProcessGenerationService.cs" />
+    <Compile Include="Model\LinkModeEnum.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="BootStrapper.cs" />
     <Compile Include="Service\ProcessGenerationService.cs" />

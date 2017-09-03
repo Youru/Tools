@@ -32,6 +32,8 @@ namespace Scrapping
                 url = options.Url;
                 site = _documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
                 site.ChapterName = options.ChapterName;
+                site.linkMode = options.RecoveryLinkMode;
+                site.AbbreviationTitle = options.AbbreviationTitle;
             }
 
             if (HasError())

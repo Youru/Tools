@@ -11,6 +11,8 @@
     "Resolve": "wuxiaworld.com",
     "ContentSelector": "div[itemprop='articleBody'] p:not(:first-child):not(:last-child)",
     "LinkSelector": "div[itemprop='articleBody'] a",
+    "NextChapterSelector": "div[itemprop='articleBody'] > p a",
+    "NextChapterText": "Next Chapter",
     "NameSelector": "header > h1",
     "WrongParts": [ "Previous Chapter", "Teaser for Next Chapter" ],
     "Type": "novel"

@@ -101,5 +101,21 @@ namespace TestScrapping
 
             generationService.GenerateFileFromElements(link, folderName);
         }
+
+        [Theory]
+        [InlineData("http://www.wuxiaworld.com/ti-index/ti-vol-17-chapter-1-1/", 350)]
+        public async void Should_Get_Links_From_Chapter(string url, int fromChapterNumber)
+        {
+            ISiteService generationService;
+            var documentService = new DocumentService();
+            var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
+            site.linkMode = LinkModeEnum.chapter;
+            generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
+            generationService.SetSite(site);
+
+            var links = await generationService.GetAllLinks(url, fromChapterNumber);
+
+            Check.That(links.Count).IsGreaterThan(0);
+        }
     }
 }

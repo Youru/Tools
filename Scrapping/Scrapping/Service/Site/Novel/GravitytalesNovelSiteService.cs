@@ -29,7 +29,7 @@ namespace Scrapping
 
             for (int i = 0; i <= fromChapterNumber; i++)
             {
-                listLink.Add(new Link() { Name = $"chapter - {i:D3}", Href = $"{url}{Site.ChapterName}{i}" });
+                listLink.Add(new Link() { Name = $"chapter - {i:D3}", Href = $"{url}{Site.AbbreviationTitle}{Site.ChapterName}{i}" });
             }
 
             return listLink;

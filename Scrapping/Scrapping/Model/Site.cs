@@ -5,6 +5,8 @@
         public string Resolve;
         public string ContentSelector;
         public string LinkSelector;
+        public string NextChapterSelector;
+        public string NextChapterText;
         public string NameSelector;
         public string[] WrongParts;
         public string ListPageSelector;
@@ -14,5 +16,7 @@
         public string PatternChapterNumber;
         public string Type;
         public string ChapterName;
+        public string AbbreviationTitle;
+        public LinkModeEnum linkMode;
     }
 }
