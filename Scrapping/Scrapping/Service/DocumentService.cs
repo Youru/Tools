@@ -13,8 +13,9 @@ namespace Scrapping
         public void CreateNewFolder(string folderName)
         {
             var currentPath = Directory.GetCurrentDirectory();
+            var folderPath = Path.Combine(currentPath, folderName);
 
-            Directory.CreateDirectory(currentPath + "\\" + folderName);
+            Directory.CreateDirectory(folderPath);
         }
 
         public void FillNewDocument(string folderName, string fileName, StringBuilder texte)
@@ -34,7 +35,7 @@ namespace Scrapping
 
         public void DownloadNewPicture(string folderName, string fileName, string url)
         {
-            string filePath = String.Format("{0}\\{1}\\{2}.jpg", Directory.GetCurrentDirectory(), folderName, fileName);
+            string filePath = $"{Path.Combine(Directory.GetCurrentDirectory(), folderName, fileName)}.jpg";
 
             try
             {

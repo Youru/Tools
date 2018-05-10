@@ -9,13 +9,13 @@
   },
   {
     "Resolve": "wuxiaworld.com",
-    "ContentSelector": "div[itemprop='articleBody'] p:not(:first-child):not(:last-child)",
-    "LinkSelector": "div[itemprop='articleBody'] a",
-    "NextChapterSelector": "div[itemprop='articleBody'] > p a",
+    "ContentSelector": ".fr-view p",
+    "LinkSelector": ".chapter-item a",
+    "NextChapterSelector": ".next a",
     "NextChapterText": "Next Chapter",
-    "NameSelector": "header > h1",
+    "NameSelector": ".p-15 >h4",
     "WrongParts": [ "Previous Chapter", "Teaser for Next Chapter" ],
-    "Type": "novel"
+    "Type": "wuxiaworld"
   },
   {
     "Resolve": "translationnations.com",
@@ -28,8 +28,8 @@
   {
     "Resolve": "royalroadweed.blogspot.fr/",
     "ContentSelector": ".pagepost .cover,#content .post-content",
-    "LinkSelector": ".cover div a:first-child",
-    "NameSelector": ".title>h2>a",
+    "LinkSelector": ".post-entry a",
+    "NameSelector": ".post-header h1",
     "WrongParts": [],
     "Type": "novel"
   },
@@ -53,5 +53,13 @@
     "PatternPageNumber": "\\d+.html",
     "PatternChapterNumber": "Page \\d+",
     "Type": "scan"
+  },
+  {
+    "Resolve": "manga-lel.com",
+    "ContentSelector": ".img-responsive",
+    "LinkSelector": ".chapter-title-rtl a",
+    "NameSelector": ".widget-title",
+    "WrongParts": [],
+    "Type": "mangalel"
   }
 ]

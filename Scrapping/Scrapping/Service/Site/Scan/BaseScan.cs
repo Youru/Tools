@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public class GenericScanSiteService : AbstractSiteService
+    public class BaseScan : AbstractSiteService
     {
         private IRegexService _regexService;
         private IAngleScrapService _angleScrapService;
         private IDocumentService _documentService;
 
-        public GenericScanSiteService(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService)
+        public BaseScan(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService)
         {
             _regexService = regexService;
             _angleScrapService = angleScrapService;
@@ -38,38 +38,41 @@ namespace Scrapping
                     var pages = page.QuerySelectorAll(Site.ListPageSelector);
                     var chapterName = page.QuerySelector(Site.ChapterNameSelector);
                     pages.ToList().ForEach(p => links.Add(new Link() { Href = $"{elem.Href}/{p.TextContent}", Name = _regexService.ReplaceContentWithPostText(_regexService.ReplaceContent(chapterName.TextContent, "_", "[?|:|\"|\\n|/|/]"), p.TextContent, Site.PatternChapterNumber) }));
+                }
             }
-        }
 
             return links;
         }
 
-    public override async Task<string> GetMangaName(string url)
-    {
-        IBrowsingContext context = _angleScrapService.GetContext();
-        var element = await _angleScrapService.GetElement(context, url, Site.NameSelector);
-
-        return _regexService.ReplaceContent(element.TextContent, "", "[?|:|\"|\\n|/|/]");
-    }
-
-    protected override async Task InnerGenerateFileFromElements(Link link, string folderName)
-    {
-        IBrowsingContext context = _angleScrapService.GetContext();
-        StringBuilder text = new StringBuilder();
-
-        try
+        public override async Task<string> GetMangaName(string url)
         {
-            var element = (IHtmlImageElement)await _angleScrapService.GetElement(context, link.Href, Site.ContentSelector);
+            IBrowsingContext context = _angleScrapService.GetContext();
+            var element = await _angleScrapService.GetElement(context, url, Site.NameSelector);
 
-            if (!String.IsNullOrEmpty(element.Source))
+            return _regexService.ReplaceContent(element.TextContent, "", "[?|:|\"|\\n|/|/]");
+        }
+
+        protected override async Task InnerGenerateFileFromElements(Link link, string folderName)
+        {
+            IBrowsingContext context = _angleScrapService.GetContext();
+            StringBuilder text = new StringBuilder();
+
+            Console.WriteLine($"Trying to dl {link.Name} with url {link.Href}");
+            try
             {
-                _documentService.DownloadNewPicture(folderName, link.Name, element.Source);
+                var element = (IHtmlImageElement)await _angleScrapService.GetElement(context, link.Href, Site.ContentSelector);
+
+                if (!String.IsNullOrEmpty(element.Source))
+                {
+                    _documentService.DownloadNewPicture(folderName, link.Name, element.Source);
+                }
+
+                Console.WriteLine($"{link.Name} has been downloaded");
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.Message);
             }
         }
-        catch (Exception ex)
-        {
-            Trace.TraceError(ex.Message);
-        }
     }
-}
 }

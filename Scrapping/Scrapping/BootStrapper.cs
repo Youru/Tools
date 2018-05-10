@@ -10,7 +10,7 @@ namespace Scrapping
                 IContainer child = new Container();
                 child.Configure(cfg =>
                 {
-                    cfg.IncludeRegistry<BaseRegistry>();
+                    cfg.IncludeRegistry<ScrappingRegistry>();
                 });
 
                 return child;

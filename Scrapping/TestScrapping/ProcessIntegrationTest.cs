@@ -5,6 +5,7 @@ using AngleSharp;
 using System.Text;
 using System.Linq;
 using Scrapping.Model;
+using System;
 
 namespace TestScrapping
 {
@@ -24,9 +25,9 @@ namespace TestScrapping
         }
 
         [Theory]
-        [InlineData("http://www.wuxiaworld.com/tdg-index/tdg-chapter-330/", "div[itemprop='articleBody'] p:not(:first-child):not(:last-child)")]
+        [InlineData("https://www.wuxiaworld.com/novel/tales-of-demons-and-gods/tdg-chapter-330", ".fr-view")]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/st-book-16-chapter-33/", ".entry-content p u,.entry-content u ul,.entry-content p:not(:first-child):not(:last-child)")]
-        [InlineData("http://royalroadweed.blogspot.fr/2014/11/volume-1-chapter-1.html", ".cover span")]
+        //[InlineData("http://royalroadweed.blogspot.fr/2014/11/volume-1-chapter-1.html", ".cover span")]
         public async void Should_Get_Content(string link, string selector)
         {
             var scrapping = new AngleScrapService();
@@ -49,7 +50,7 @@ namespace TestScrapping
         }
 
         [Theory]
-        [InlineData("http://www.wuxiaworld.com/tdg-index/", 350)]
+        [InlineData("https://www.wuxiaworld.com/novel/tales-of-demons-and-gods/", 350)]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/", 380)]
         [InlineData("http://royalroadweed.blogspot.fr/2017/01/moonlight-sculptor-table-of-content.html", 150)]
         [InlineData("http://www.mangareader.net/niflheim", 40)]
@@ -58,6 +59,7 @@ namespace TestScrapping
             ISiteService generationService;
             var documentService = new DocumentService();
             var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
+            site.BaseUrl = new Uri(url);
             generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
             generationService.SetSite(site);
 
@@ -67,7 +69,7 @@ namespace TestScrapping
         }
 
         [Theory]
-        [InlineData("http://www.wuxiaworld.com/tdg-index/")]
+        [InlineData("https://www.wuxiaworld.com/novel/tales-of-demons-and-gods/")]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/")]
         [InlineData("http://royalroadweed.blogspot.fr/2017/01/moonlight-sculptor-table-of-content.html")]
         [InlineData("http://www.mangareader.net/niflheim")]
@@ -85,7 +87,7 @@ namespace TestScrapping
         }
 
         [Theory]
-        [InlineData("http://www.wuxiaworld.com/tdg-index/tdg-chapter-1/", "chapter 1")]
+        [InlineData("https://www.wuxiaworld.com/novel/tales-of-demons-and-gods/tdg-chapter-1", "chapter 1")]
         [InlineData("http://www.translationnations.com/translations/stellar-transformations/st-book-11-chapter-49/", "chapter 49")]
         [InlineData("http://royalroadweed.blogspot.fr/2014/11/volume-1-chapter-1.html", "chapter 1")]
         [InlineData("http://www.mangareader.net/niflheim/1", "chapter 1")]
@@ -103,7 +105,7 @@ namespace TestScrapping
         }
 
         [Theory]
-        [InlineData("http://www.wuxiaworld.com/ti-index/ti-vol-17-chapter-1-1/", 350)]
+        [InlineData("https://www.wuxiaworld.com/novel/terror-infinity/ti-vol-14-chapter-5-02/", 350)]
         public async void Should_Get_Links_From_Chapter(string url, int fromChapterNumber)
         {
             ISiteService generationService;

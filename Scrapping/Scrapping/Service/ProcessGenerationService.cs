@@ -34,6 +34,7 @@ namespace Scrapping
                 site.ChapterName = options.ChapterName;
                 site.linkMode = options.RecoveryLinkMode;
                 site.AbbreviationTitle = options.AbbreviationTitle;
+                site.BaseUrl = new Uri(url);
             }
 
             if (HasError())

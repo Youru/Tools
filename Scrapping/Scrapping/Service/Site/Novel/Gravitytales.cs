@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public class GravitytalesNovelSiteService : GenericNovelSiteService
+    public class Gravitytales : BaseNovel
     {
         private IRegexService _regexService;
         private IAngleScrapService _angleScrapService;
         private IDocumentService _documentService;
 
-        public GravitytalesNovelSiteService(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService):base(regexService,  angleScrapService,  documentService)
+        public Gravitytales(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService):base(regexService,  angleScrapService,  documentService)
         {
             _regexService = regexService;
             _angleScrapService = angleScrapService;

@@ -1,7 +1,10 @@
-﻿namespace Scrapping.Model
+﻿using System;
+
+namespace Scrapping.Model
 {
     public class Site
     {
+        public Uri BaseUrl;
         public string Resolve;
         public string ContentSelector;
         public string LinkSelector;

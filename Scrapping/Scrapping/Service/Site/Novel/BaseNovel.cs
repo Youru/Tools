@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public class GenericNovelSiteService : AbstractSiteService
+    public class BaseNovel : AbstractSiteService
     {
         private IRegexService _regexService;
         private IAngleScrapService _angleScrapService;
         private IDocumentService _documentService;
 
-        public GenericNovelSiteService(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService)
+        public BaseNovel(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService)
         {
             _regexService = regexService;
             _angleScrapService = angleScrapService;
@@ -57,7 +57,7 @@ namespace Scrapping
             while (true)
             {
                 var hrefList = _angleScrapService.GetElements(context, nextChapterUrl, Site.NextChapterSelector).Result;
-                var element = hrefList.FirstOrDefault(e => e.InnerHtml.Contains(Site.NextChapterText));
+                var element = hrefList.FirstOrDefault();
 
                 if (element == null || links.Count > 0 && element.GetAttribute("href") == links.Last()?.Href)
                 {
@@ -90,7 +90,7 @@ namespace Scrapping
         {
             IBrowsingContext context = _angleScrapService.GetContext();
             StringBuilder text = new StringBuilder();
-
+            Console.WriteLine($"Trying to dl {link.Name} with url {link.Href}");
             try
             {
                 int i = 0;
@@ -101,6 +101,8 @@ namespace Scrapping
 
                     if (text.Length > 0)
                     {
+
+                        Console.WriteLine($"{link.Name} has been downloaded");
                         _documentService.FillNewDocument(folderName, link.Name, text);
                         break;
                     }
