@@ -16,7 +16,7 @@
     
     
     /!\ Specific gravitytales /!\ (Content added dynamically)
-    -u "http://gravitytales.com/novel/the-kings-avatar/"  -a "the-kings-avatar" -c "tka-chapter-" -f 100 (Number of chapter to find)
+    -u "http://gravitytales.com/novel/the-kings-avatar/"  -c "/tka-chapter-" -f 100 (Number of chapter to find)
     
     Will get all chapters from
     http://gravitytales.com/novel/the-kings-avatar/tka-chapter-0 
