@@ -16,6 +16,8 @@ namespace Scrapping
             this.For<ISiteService>().Use<Gravitytales>().Named("gravitytales");
             this.For<ISiteService>().Use<WuxiaWorld>().Named("wuxiaworld");
             this.For<ISiteService>().Use<MangaLel>().Named("mangalel");
+            this.For<ISiteService>().Use<WebNovel>().Named("webnovel");
+
         }
     }
 }

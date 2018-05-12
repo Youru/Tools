@@ -61,5 +61,11 @@
     "NameSelector": ".widget-title",
     "WrongParts": [],
     "Type": "mangalel"
+  },
+  {
+    "Resolve": "webnovel.com",
+    "ContentSelector": ".chapter_content h3,.cha-words p",
+    "WrongParts": [],
+    "Type": "webnovel"
   }
 ]
