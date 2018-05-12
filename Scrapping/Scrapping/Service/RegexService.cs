@@ -21,5 +21,11 @@ namespace Scrapping.Service
             Regex rgx = new Regex(pattern);
             return rgx.Replace(textContent, replace);
         }
+
+        public string GetBookId(string textContent, string pattern)
+        {
+            Regex rgx = new Regex(pattern);
+            return rgx.Match(textContent).Value;
+        }
     }
 }

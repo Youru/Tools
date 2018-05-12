@@ -20,6 +20,7 @@ namespace Scrapping.Model
         public string Type;
         public string ChapterName;
         public string AbbreviationTitle;
+        public string Token;
         public LinkModeEnum linkMode;
     }
 }

@@ -29,10 +29,10 @@ namespace Scrapping
         public override async Task<List<Link>> GetAllLinks(string url, int fromChapterNumber)
         {
             IBrowsingContext context = _angleScrapService.GetContext();
-            var document = await context.OpenAsync(url);
+            var document = await context.OpenAsync(GetUrlApi(url));
             var webNovel = JsonConvert.DeserializeObject<Model.WebNovel>(document.Body.TextContent);
 
-            return webNovel.Data.VolumeItems.SelectMany(v => v.ChapterItems).Select(itemChapter => new Link()
+            return webNovel.Data.VolumeItems.SelectMany(v => v.ChapterItems).Where(c => c.FeeType != 1).Select(itemChapter => new Link()
             {
                 Href = $"https://www.{Site.Resolve}/book/{webNovel.Data.BookInfo.BookId}/{itemChapter.Id}/{webNovel.Data.BookInfo.BookName.Replace(' ', '-')}/{itemChapter.Name.Replace(' ', '-')}",
                 Name = $"{itemChapter.Index:D4} - {_regexService.ReplaceContent(itemChapter.Name, "", "[?|:|\"|\\n|/|/]")}"
@@ -42,10 +42,16 @@ namespace Scrapping
         public override async Task<string> GetMangaName(string url)
         {
             IBrowsingContext context = _angleScrapService.GetContext();
-            var document = await context.OpenAsync(url);
+            var document = await context.OpenAsync(GetUrlApi(url));
             var webNovel = JsonConvert.DeserializeObject<Model.WebNovel>(document.Body.TextContent);
 
             return _regexService.ReplaceContent(webNovel.Data.BookInfo.BookName, "", "[?|:|\"|\\n|/|/]");
+        }
+
+        private string GetUrlApi(string url)
+        {
+            var bookId = _regexService.GetBookId(url, "\\d{16}");
+            return $"https://www.{Site.Resolve}/apiajax/chapter/GetChapterList?_csrfToken={Site.Token}&bookId={bookId}";
         }
     }
 }
