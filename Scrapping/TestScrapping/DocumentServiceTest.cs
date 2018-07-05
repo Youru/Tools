@@ -14,7 +14,7 @@ namespace TestScrapping
         public void Should_Create_Folder()
         {
             var folderName = "Toto";
-            var documentService = new DocumentService();
+            var documentService = new Document();
             documentService.CreateNewFolder(folderName);
         }
 
@@ -23,7 +23,7 @@ namespace TestScrapping
         {
             var folderName = "Toto";
             var fileName = "tata";
-            var documentService = new DocumentService();
+            var documentService = new Document();
             documentService.FillNewDocument(folderName, fileName, new StringBuilder());
         }
 
@@ -32,7 +32,7 @@ namespace TestScrapping
         {
             var folderName = "Toto";
             var fileName = "*$/";
-            var documentService = new DocumentService();
+            var documentService = new Document();
 
             Check.ThatCode(() => documentService.FillNewDocument(folderName, fileName, new StringBuilder())).Throws<ArgumentException>();
         }
@@ -43,7 +43,7 @@ namespace TestScrapping
             var folderName = "Toto";
             var fileName = "tata";
             var url = @"https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/leisa_christmas_false_color.png?itok=Jxf0IlS4";
-            var documentService = new DocumentService();
+            var documentService = new Document();
             documentService.DownloadNewPicture(folderName, fileName, url);
         }
 
@@ -53,7 +53,7 @@ namespace TestScrapping
             var folderName = "titi";
             var fileName = "*$/?-";
             var url = @"https://www.nasa.gov/sites/default/files/styles/image_card_4x3_ratio/public/thumbnails/image/leisa_christmas_false_color.png?itok=Jxf0IlS4";
-            var documentService = new DocumentService();
+            var documentService = new Document();
 
             Check.ThatCode(() => documentService.DownloadNewPicture(folderName, fileName, url)).Throws<WebException>();
         }
@@ -62,7 +62,7 @@ namespace TestScrapping
         public void Should_Get_All_Path_For_A_Folder()
         {
             var folderName = "Toto";
-            var documentService = new DocumentService();
+            var documentService = new Document();
             var path = documentService.GetAllPath(folderName);
 
             Check.That(path).IsNotNull();

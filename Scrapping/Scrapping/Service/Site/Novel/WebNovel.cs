@@ -15,13 +15,13 @@ namespace Scrapping
 {
     public class WebNovel : BaseNovel
     {
-        private IRegexService _regexService;
-        private IAngleScrapService _angleScrapService;
-        private IDocumentService _documentService;
+        private IReplace _replace;
+        private IAngleScrap _angleScrapService;
+        private IDocument _documentService;
 
-        public WebNovel(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService) : base(regexService, angleScrapService, documentService)
+        public WebNovel(IReplace replace, IAngleScrap angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
         {
-            _regexService = regexService;
+            _replace = replace;
             _angleScrapService = angleScrapService;
             _documentService = documentService;
         }
@@ -35,7 +35,7 @@ namespace Scrapping
             return webNovel.Data.VolumeItems.SelectMany(v => v.ChapterItems).Where(c => c.FeeType != 1).Select(itemChapter => new Link()
             {
                 Href = $"https://www.{Site.Resolve}/book/{webNovel.Data.BookInfo.BookId}/{itemChapter.Id}/{webNovel.Data.BookInfo.BookName.Replace(' ', '-')}/{itemChapter.Name.Replace(' ', '-')}",
-                Name = $"{itemChapter.Index:D4} - {_regexService.ReplaceContent(itemChapter.Name, "", "[?|:|\"|\\n|/|/]")}"
+                Name = $"{itemChapter.Index:D4} - {_replace.Content(itemChapter.Name, "", "[?|:|\"|\\n|/|/]")}"
             }).Skip(fromChapterNumber).ToList();
         }
 
@@ -45,12 +45,12 @@ namespace Scrapping
             var document = await context.OpenAsync(GetUrlApi(url));
             var webNovel = JsonConvert.DeserializeObject<Model.WebNovel>(document.Body.TextContent);
 
-            return _regexService.ReplaceContent(webNovel.Data.BookInfo.BookName, "", "[?|:|\"|\\n|/|/]");
+            return _replace.Content(webNovel.Data.BookInfo.BookName, "", "[?|:|\"|\\n|/|/]");
         }
 
         private string GetUrlApi(string url)
         {
-            var bookId = _regexService.GetBookId(url, "\\d{16}");
+            var bookId = _replace.GetBookId(url, "\\d{16}");
             return $"https://www.{Site.Resolve}/apiajax/chapter/GetChapterList?_csrfToken={Site.Token}&bookId={bookId}";
         }
     }

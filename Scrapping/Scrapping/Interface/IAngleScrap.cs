@@ -4,7 +4,7 @@ using AngleSharp.Dom;
 
 namespace Scrapping
 {
-    public interface IAngleScrapService
+    public interface IAngleScrap
     {
         IBrowsingContext GetContext();
         Task<IElement> GetElement(IBrowsingContext context, string url, string selector);

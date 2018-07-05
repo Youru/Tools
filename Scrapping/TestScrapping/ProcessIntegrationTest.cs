@@ -16,7 +16,7 @@ namespace TestScrapping
         [Fact]
         public void Should_Process_Url()
         {
-            var scrapping = new AngleScrapService();
+            var scrapping = new AngleScrap();
 
             IBrowsingContext context = scrapping.GetContext();
 
@@ -30,7 +30,7 @@ namespace TestScrapping
         //[InlineData("http://royalroadweed.blogspot.fr/2014/11/volume-1-chapter-1.html", ".cover span")]
         public async void Should_Get_Content(string link, string selector)
         {
-            var scrapping = new AngleScrapService();
+            var scrapping = new AngleScrap();
             StringBuilder texte = new StringBuilder();
             IBrowsingContext context = scrapping.GetContext();
 
@@ -43,7 +43,7 @@ namespace TestScrapping
         [Fact]
         public void Should_Get_Site()
         {
-            var documentService = new DocumentService();
+            var documentService = new Document();
             var sites = documentService.GetSites().ToList();
 
             Check.That(sites.Count).IsGreaterThan(0);
@@ -56,11 +56,11 @@ namespace TestScrapping
         [InlineData("http://www.mangareader.net/niflheim", 40)]
         public async void Should_Get_Links(string url, int fromChapterNumber)
         {
-            ISiteService generationService;
-            var documentService = new DocumentService();
+            ISite generationService;
+            var documentService = new Document();
             var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
             site.BaseUrl = new Uri(url);
-            generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
+            generationService = Bootstrapper.ContainerTool.GetInstance<ISite>(site.Type);
             generationService.SetSite(site);
 
             var links = await generationService.GetAllLinks(url, fromChapterNumber);
@@ -75,10 +75,10 @@ namespace TestScrapping
         [InlineData("http://www.mangareader.net/niflheim")]
         public async void Should_Get_Name(string url)
         {
-            ISiteService generationService;
-            var documentService = new DocumentService();
+            ISite generationService;
+            var documentService = new Document();
             var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
-            generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
+            generationService = Bootstrapper.ContainerTool.GetInstance<ISite>(site.Type);
             generationService.SetSite(site);
 
             var name = await generationService.GetMangaName(url);
@@ -93,12 +93,12 @@ namespace TestScrapping
         [InlineData("http://www.mangareader.net/niflheim/1", "chapter 1")]
         public void Should_Generate_Link(string url, string name)
         {
-            ISiteService generationService;
+            ISite generationService;
             var link = new Link() { Href = url, Name = name };
             var folderName = "toto";
-            var documentService = new DocumentService();
+            var documentService = new Document();
             var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
-            generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
+            generationService = Bootstrapper.ContainerTool.GetInstance<ISite>(site.Type);
             generationService.SetSite(site);
 
             generationService.GenerateFileFromElements(link, folderName);
@@ -108,11 +108,11 @@ namespace TestScrapping
         [InlineData("https://www.wuxiaworld.com/novel/terror-infinity/ti-vol-14-chapter-5-02/", 350)]
         public async void Should_Get_Links_From_Chapter(string url, int fromChapterNumber)
         {
-            ISiteService generationService;
-            var documentService = new DocumentService();
+            ISite generationService;
+            var documentService = new Document();
             var site = documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
             site.linkMode = LinkModeEnum.chapter;
-            generationService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
+            generationService = Bootstrapper.ContainerTool.GetInstance<ISite>(site.Type);
             generationService.SetSite(site);
 
             var links = await generationService.GetAllLinks(url, fromChapterNumber);

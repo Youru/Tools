@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public interface ISiteService
+    public interface ISite
     {
         void SetSite(Site site);
         void GenerateFileFromElements(Link link, string folderName);

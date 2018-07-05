@@ -12,13 +12,13 @@ namespace Scrapping
 {
     public class WuxiaWorld : BaseNovel
     {
-        private IRegexService _regexService;
-        private IAngleScrapService _angleScrapService;
-        private IDocumentService _documentService;
+        private IReplace _replace;
+        private IAngleScrap _angleScrapService;
+        private IDocument _documentService;
 
-        public WuxiaWorld(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService):base(regexService,  angleScrapService,  documentService)
+        public WuxiaWorld(IReplace replace, IAngleScrap angleScrapService, IDocument documentService):base(replace,  angleScrapService,  documentService)
         {
-            _regexService = regexService;
+            _replace = replace;
             _angleScrapService = angleScrapService;
             _documentService = documentService;
         }
@@ -44,7 +44,7 @@ namespace Scrapping
             return elements.Select(e => new Link()
             {
                 Href = new Uri(Site.BaseUrl,e.GetAttribute("href")).ToString(),
-                Name = _regexService.ReplaceContent(((IHtmlAnchorElement)e).PathName, "", "[?|:|\"|\\n|/|/]")
+                Name = _replace.Content(((IHtmlAnchorElement)e).PathName, "", "[?|:|\"|\\n|/|/]")
             }).Skip(fromChapterNumber).ToList();
         }
 
@@ -70,7 +70,7 @@ namespace Scrapping
                 links.Add(new Link
                 {
                     Href = nextChapterUrl,
-                    Name = _regexService.ReplaceContent(((IHtmlAnchorElement)element).PathName, "", "[?|:|\"|\\n|/|/]")
+                    Name = _replace.Content(((IHtmlAnchorElement)element).PathName, "", "[?|:|\"|\\n|/|/]")
                 });
             }
 

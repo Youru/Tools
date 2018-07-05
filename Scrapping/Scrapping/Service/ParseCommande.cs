@@ -3,7 +3,7 @@ using Scrapping.Model;
 
 namespace Scrapping
 {
-    public class ParseCommandeService
+    public class ParseCommande
     {
         [Option('f', DefaultValue = 0, HelpText = "Get Chapter from")]
         public int? FromChapterNumber { get; set; }

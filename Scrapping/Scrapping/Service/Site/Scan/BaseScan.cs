@@ -12,13 +12,13 @@ namespace Scrapping
 {
     public class BaseScan : AbstractSiteService
     {
-        private IRegexService _regexService;
-        private IAngleScrapService _angleScrapService;
-        private IDocumentService _documentService;
+        private IReplace _replace;
+        private IAngleScrap _angleScrapService;
+        private IDocument _documentService;
 
-        public BaseScan(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService)
+        public BaseScan(IReplace replace, IAngleScrap angleScrapService, IDocument documentService)
         {
-            _regexService = regexService;
+            _replace = replace;
             _angleScrapService = angleScrapService;
             _documentService = documentService;
         }
@@ -37,7 +37,7 @@ namespace Scrapping
                 {
                     var pages = page.QuerySelectorAll(Site.ListPageSelector);
                     var chapterName = page.QuerySelector(Site.ChapterNameSelector);
-                    pages.ToList().ForEach(p => links.Add(new Link() { Href = $"{elem.Href}/{p.TextContent}", Name = _regexService.ReplaceContentWithPostText(_regexService.ReplaceContent(chapterName.TextContent, "_", "[?|:|\"|\\n|/|/]"), p.TextContent, Site.PatternChapterNumber) }));
+                    pages.ToList().ForEach(p => links.Add(new Link() { Href = $"{elem.Href}/{p.TextContent}", Name = _replace.ContentWithPostText(_replace.Content(chapterName.TextContent, "_", "[?|:|\"|\\n|/|/]"), p.TextContent, Site.PatternChapterNumber) }));
                 }
             }
 
@@ -49,7 +49,7 @@ namespace Scrapping
             IBrowsingContext context = _angleScrapService.GetContext();
             var element = await _angleScrapService.GetElement(context, url, Site.NameSelector);
 
-            return _regexService.ReplaceContent(element.TextContent, "", "[?|:|\"|\\n|/|/]");
+            return _replace.Content(element.TextContent, "", "[?|:|\"|\\n|/|/]");
         }
 
         protected override async Task InnerGenerateFileFromElements(Link link, string folderName)

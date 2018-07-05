@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Scrapping
 {
-    public class DocumentService : IDocumentService
+    public class Document : IDocument
     {
         public void CreateNewFolder(string folderName)
         {
@@ -20,7 +20,7 @@ namespace Scrapping
 
         public void FillNewDocument(string folderName, string fileName, StringBuilder texte)
         {
-            string filePath = String.Format("{0}\\{1}\\{2}.html", Directory.GetCurrentDirectory(), folderName, fileName);
+            string filePath = $"{Directory.GetCurrentDirectory()}\\{folderName}\\{fileName}.html";
 
             try
             {
@@ -28,7 +28,7 @@ namespace Scrapping
             }
             catch (Exception ex)
             {
-                Console.WriteLine(String.Format("The generation of the {0} has encoutered an issue. ERROR : {1}", fileName, ex.Message));
+                Console.WriteLine($"The generation of the {fileName} has encoutered an issue. ERROR : {ex.Message}");
                 throw;
             }
         }
@@ -46,7 +46,7 @@ namespace Scrapping
             }
             catch (Exception ex)
             {
-                Console.WriteLine(String.Format("The generation of the {0} has encoutered an issue. ERROR : {1}", fileName, ex.Message));
+                Console.WriteLine($"The generation of the {fileName} has encoutered an issue. ERROR : {ex.Message}");
                 throw;
             }
         }

@@ -12,13 +12,13 @@ namespace Scrapping
 {
     public class Gravitytales : BaseNovel
     {
-        private IRegexService _regexService;
-        private IAngleScrapService _angleScrapService;
-        private IDocumentService _documentService;
+        private IReplace _replace;
+        private IAngleScrap _angleScrapService;
+        private IDocument _documentService;
 
-        public Gravitytales(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService):base(regexService,  angleScrapService,  documentService)
+        public Gravitytales(IReplace replace, IAngleScrap angleScrapService, IDocument documentService):base(replace,  angleScrapService,  documentService)
         {
-            _regexService = regexService;
+            _replace = replace;
             _angleScrapService = angleScrapService;
             _documentService = documentService;
         }

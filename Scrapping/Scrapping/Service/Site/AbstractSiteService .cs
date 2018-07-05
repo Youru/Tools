@@ -5,7 +5,7 @@ using AngleSharp.Dom;
 
 namespace Scrapping
 {
-    public abstract class AbstractSiteService : ISiteService
+    public abstract class AbstractSiteService : ISite
     {
         protected Site Site { get; set; }
 

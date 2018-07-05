@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace Scrapping
 {
-    public class ProcessGenerationService : IProcessGenerationService
+    public class ProcessGeneration : IProcessGeneration
     {
 
         private static string url;
         private static int fromChapterNumber;
         private static Site site;
 
-        private static ISiteService _siteService;
-        private static IDocumentService _documentService;
+        private static ISite _siteService;
+        private static IDocument _documentService;
 
-        public ProcessGenerationService(IDocumentService documentService)
+        public ProcessGeneration(IDocument documentService)
         {
-            _documentService = Bootstrapper.ContainerTool.GetInstance<IDocumentService>();
+            _documentService = Bootstrapper.ContainerTool.GetInstance<IDocument>();
         }
 
         public async Task<int> Process(string[] args)
         {
-            var options = new ParseCommandeService();
+            var options = new ParseCommande();
 
             if (Parser.Default.ParseArguments(args, options))
             {
@@ -40,7 +40,7 @@ namespace Scrapping
             if (HasError())
                 return 0;
 
-            _siteService = Bootstrapper.ContainerTool.GetInstance<ISiteService>(site.Type);
+            _siteService = Bootstrapper.ContainerTool.GetInstance<ISite>(site.Type);
             _siteService.SetSite(site);
             var links = await _siteService.GetAllLinks(url, fromChapterNumber);
             var folderName = await _siteService.GetMangaName(url);

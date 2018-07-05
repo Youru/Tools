@@ -7,16 +7,16 @@ namespace Scrapping
     {
         public ScrappingRegistry()
         {
-            this.For<IRegexService>().Use<RegexService>();
-            this.For<IAngleScrapService>().Use<AngleScrapService>();
-            this.For<IDocumentService>().Use<DocumentService>();
-            this.For<IProcessGenerationService>().Use<ProcessGenerationService>();
-            this.For<ISiteService>().Use<BaseScan>().Named("scan");
-            this.For<ISiteService>().Use<BaseNovel>().Named("novel");
-            this.For<ISiteService>().Use<Gravitytales>().Named("gravitytales");
-            this.For<ISiteService>().Use<WuxiaWorld>().Named("wuxiaworld");
-            this.For<ISiteService>().Use<MangaLel>().Named("mangalel");
-            this.For<ISiteService>().Use<WebNovel>().Named("webnovel");
+            this.For<IReplace>().Use<Replace>();
+            this.For<IAngleScrap>().Use<AngleScrap>();
+            this.For<IDocument>().Use<Document>();
+            this.For<IProcessGeneration>().Use<ProcessGeneration>();
+            this.For<ISite>().Use<BaseScan>().Named("scan");
+            this.For<ISite>().Use<BaseNovel>().Named("novel");
+            this.For<ISite>().Use<Gravitytales>().Named("gravitytales");
+            this.For<ISite>().Use<WuxiaWorld>().Named("wuxiaworld");
+            this.For<ISite>().Use<MangaLel>().Named("mangalel");
+            this.For<ISite>().Use<WebNovel>().Named("webnovel");
 
         }
     }

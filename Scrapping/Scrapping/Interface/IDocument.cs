@@ -4,7 +4,7 @@ using Scrapping.Model;
 
 namespace Scrapping
 {
-    public interface IDocumentService
+    public interface IDocument
     {
         void CreateNewFolder(string folderName);
         void DownloadNewPicture(string folderName, string fileName, string url);

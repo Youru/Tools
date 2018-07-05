@@ -2,7 +2,7 @@
 
 namespace Scrapping
 {
-    public interface IProcessGenerationService
+    public interface IProcessGeneration
     {
         Task<int> Process(string[] args);
     }

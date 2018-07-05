@@ -73,29 +73,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IProcessGenerationService.cs" />
+    <Compile Include="Interface\IProcessGeneration.cs" />
     <Compile Include="Model\LinkModeEnum.cs" />
     <Compile Include="Model\Site.cs" />
     <Compile Include="BootStrapper.cs" />
-    <Compile Include="Service\ProcessGenerationService.cs" />
-    <Compile Include="Service\DocumentService.cs" />
-    <Compile Include="Interface\IDocumentService.cs" />
-    <Compile Include="Interface\IAngleScrapService.cs" />
-    <Compile Include="Interface\IRegexService.cs" />
-    <Compile Include="Service\ParseCommandeService.cs" />
-    <Compile Include="Service\RegexService.cs" />
+    <Compile Include="Model\WebNovel.cs" />
+    <Compile Include="Service\ProcessGeneration.cs" />
+    <Compile Include="Service\Document.cs" />
+    <Compile Include="Interface\IDocument.cs" />
+    <Compile Include="Interface\IAngleScrap.cs" />
+    <Compile Include="Interface\IReplace.cs" />
+    <Compile Include="Service\ParseCommande.cs" />
+    <Compile Include="Service\Replace.cs" />
     <Compile Include="ScrappingRegistry.cs" />
     <Compile Include="Service\Site\AbstractSiteService .cs" />
+    <Compile Include="Service\Site\Novel\WebNovel.cs" />
     <Compile Include="Service\Site\Novel\WuxiaWorld.cs" />
     <Compile Include="Service\Site\Novel\Gravitytales.cs" />
     <Compile Include="Service\Site\Novel\BaseNovel.cs" />
     <Compile Include="Service\Site\Scan\BaseScan.cs" />
     <Compile Include="Service\Site\Scan\MangaLel.cs" />
-    <Compile Include="Interface\ISiteService.cs" />
+    <Compile Include="Interface\ISite.cs" />
     <Compile Include="Model\Link.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\AngleScrapservice.cs" />
+    <Compile Include="Service\AngleScrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

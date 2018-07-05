@@ -12,13 +12,13 @@ namespace Scrapping
 {
     public class BaseNovel : AbstractSiteService
     {
-        private IRegexService _regexService;
-        private IAngleScrapService _angleScrapService;
-        private IDocumentService _documentService;
+        private IReplace _replace;
+        private IAngleScrap _angleScrapService;
+        private IDocument _documentService;
 
-        public BaseNovel(IRegexService regexService, IAngleScrapService angleScrapService, IDocumentService documentService)
+        public BaseNovel(IReplace replace, IAngleScrap angleScrapService, IDocument documentService)
         {
-            _regexService = regexService;
+            _replace = replace;
             _angleScrapService = angleScrapService;
             _documentService = documentService;
         }
@@ -45,7 +45,7 @@ namespace Scrapping
             return elements.Select(e => new Link()
             {
                 Href = e.GetAttribute("href"),
-                Name = _regexService.ReplaceContent(((IHtmlAnchorElement)e).PathName, "", "[?|:|\"|\\n|/|/]")
+                Name = _replace.Content(((IHtmlAnchorElement)e).PathName, "", "[?|:|\"|\\n|/|/]")
             }).Skip(fromChapterNumber).ToList();
         }
 
@@ -71,7 +71,7 @@ namespace Scrapping
                 links.Add(new Link
                 {
                     Href = nextChapterUrl,
-                    Name = _regexService.ReplaceContent(((IHtmlAnchorElement)element).PathName, "", "[?|:|\"|\\n|/|/]")
+                    Name = _replace.Content(((IHtmlAnchorElement)element).PathName, "", "[?|:|\"|\\n|/|/]")
                 });
             }
 
@@ -83,7 +83,7 @@ namespace Scrapping
             IBrowsingContext context = _angleScrapService.GetContext();
             var element = await _angleScrapService.GetElement(context, url, Site.NameSelector);
 
-            return _regexService.ReplaceContent(element.TextContent, "", "[?|:|\"|\\n|/|/]");
+            return _replace.Content(element.TextContent, "", "[?|:|\"|\\n|/|/]");
         }
 
         protected override async Task InnerGenerateFileFromElements(Link link, string folderName)
