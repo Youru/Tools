@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using Scrapping.Model;
 using System;
+using Scrapping.Ioc;
 
 namespace TestScrapping
 {

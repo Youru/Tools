@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using NFluent;
 using Scrapping;
+using Scrapping.Ioc;
 
 namespace TestScrapping
 {

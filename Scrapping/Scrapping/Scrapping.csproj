@@ -74,9 +74,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IProcessGeneration.cs" />
+    <Compile Include="Ioc\ServiceRegistry.cs" />
     <Compile Include="Model\LinkModeEnum.cs" />
     <Compile Include="Model\Site.cs" />
-    <Compile Include="BootStrapper.cs" />
+    <Compile Include="Ioc\BootStrapper.cs" />
     <Compile Include="Model\WebNovel.cs" />
     <Compile Include="Service\ProcessGeneration.cs" />
     <Compile Include="Service\Document.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Interface\IReplace.cs" />
     <Compile Include="Service\ParseCommande.cs" />
     <Compile Include="Service\Replace.cs" />
-    <Compile Include="ScrappingRegistry.cs" />
+    <Compile Include="Ioc\SiteRegistry.cs" />
     <Compile Include="Service\Site\AbstractSiteService .cs" />
     <Compile Include="Service\Site\Novel\WebNovel.cs" />
     <Compile Include="Service\Site\Novel\WuxiaWorld.cs" />

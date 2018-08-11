@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using Scrapping.Ioc;
 using Scrapping.Model;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Scrapping
 
         public ProcessGeneration(IDocument documentService)
         {
-            _documentService = Bootstrapper.ContainerTool.GetInstance<IDocument>();
+            _documentService = documentService;
         }
 
         public async Task<int> Process(string[] args)

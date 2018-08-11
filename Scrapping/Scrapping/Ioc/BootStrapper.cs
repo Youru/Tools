@@ -1,5 +1,5 @@
 ﻿using StructureMap;
-namespace Scrapping
+namespace Scrapping.Ioc
 {
     static public class Bootstrapper
     {
@@ -10,7 +10,8 @@ namespace Scrapping
                 IContainer child = new Container();
                 child.Configure(cfg =>
                 {
-                    cfg.IncludeRegistry<ScrappingRegistry>();
+                    cfg.IncludeRegistry<ServiceRegistry>();
+                    cfg.IncludeRegistry<SiteRegistry>();
                 });
 
                 return child;

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Scrapping.Ioc;
+using System.Threading.Tasks;
 
 namespace Scrapping
 {

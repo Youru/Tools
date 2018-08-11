@@ -1,16 +1,12 @@
 ﻿using StructureMap;
 using Scrapping.Service;
 
-namespace Scrapping
+namespace Scrapping.Ioc
 {
-    public class ScrappingRegistry : Registry
+    public class SiteRegistry : Registry
     {
-        public ScrappingRegistry()
+        public SiteRegistry()
         {
-            this.For<IReplace>().Use<Replace>();
-            this.For<IAngleScrap>().Use<AngleScrap>();
-            this.For<IDocument>().Use<Document>();
-            this.For<IProcessGeneration>().Use<ProcessGeneration>();
             this.For<ISite>().Use<BaseScan>().Named("scan");
             this.For<ISite>().Use<BaseNovel>().Named("novel");
             this.For<ISite>().Use<Gravitytales>().Named("gravitytales");
