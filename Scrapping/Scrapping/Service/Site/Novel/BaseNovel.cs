@@ -115,5 +115,20 @@ namespace Scrapping
             }
 
         }
+
+        public override List<Link> RemoveLinksAlreadyDownload(List<Link> links, string folderName)
+        {
+            var paths = _documentService.GetAllFiles(folderName);
+            if (paths.Length > 0)
+            {
+                foreach (var path in paths)
+                {
+                    var title = path.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries).Last().Replace(".html", "");
+                    links.RemoveAll(l => l.Name == title);
+                }
+            }
+
+            return links;
+        }
     }
 }

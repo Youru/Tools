@@ -18,12 +18,14 @@ namespace Scrapping
 
         public abstract Task<string> GetMangaName(string url);
 
+        protected abstract Task InnerGenerateFileFromElements(Link link, string folderName);
+
+        public abstract List<Link> RemoveLinksAlreadyDownload(List<Link> links, string folderName);
+
         public void GenerateFileFromElements(Link link, string folderName)
         {
             InnerGenerateFileFromElements(link, folderName).Wait();
         }
-
-        protected abstract Task InnerGenerateFileFromElements(Link link, string folderName);
         
         protected bool IfElementContainsWrongPart(IElement element)
         {

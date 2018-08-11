@@ -49,7 +49,7 @@
     "WrongParts": [],
     "PageSelector": "#topchapter",
     "ListPageSelector": "#selectpage option",
-    "ChapterNameSelector": "#mangainfo div:first-child",
+    "ChapterNameSelector": "#mangainfo div:first-child h1",
     "PatternPageNumber": "\\d+.html",
     "PatternChapterNumber": "Page \\d+",
     "Type": "scan"

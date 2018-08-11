@@ -33,9 +33,12 @@ namespace Scrapping
             }
         }
 
-        public void DownloadNewPicture(string folderName, string fileName, string url)
+        public void DownloadNewPicture(string folderName, string fileName, string url, string chapter = null)
         {
-            string filePath = $"{Path.Combine(Directory.GetCurrentDirectory(), folderName, fileName)}.jpg";
+            CreateNewFolder($@"{folderName}\{chapter}");
+
+            string filePath = chapter != null ? $"{Path.Combine(Directory.GetCurrentDirectory(), folderName, chapter, fileName)}.jpg"
+                : $"{Path.Combine(Directory.GetCurrentDirectory(), folderName, fileName)}.jpg";
 
             try
             {
@@ -51,10 +54,16 @@ namespace Scrapping
             }
         }
 
-        public string[] GetAllPath(string folderName)
+        public string[] GetAllFiles(string folderName)
         {
             var currentPath = Directory.GetCurrentDirectory();
             return Directory.GetFiles(currentPath + "\\" + folderName);
+        }
+
+        public IEnumerable<string> GetAllFolders(string folderName)
+        {
+            var currentPath = Directory.GetCurrentDirectory();
+            return Directory.EnumerateDirectories(currentPath + "\\" + folderName);
         }
 
         public IEnumerable<Site> GetSites()

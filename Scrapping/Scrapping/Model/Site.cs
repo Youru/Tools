@@ -23,4 +23,24 @@ namespace Scrapping.Model
         public string Token;
         public LinkModeEnum linkMode;
     }
+
+    public static class SiteExtension
+    {
+        public static bool HasError(this Site site)
+        {
+            bool hasError = false;
+            if (site == null)
+            {
+                Console.WriteLine("This site is not supported.");
+                hasError = true;
+            }
+            if (String.IsNullOrEmpty(site.BaseUrl.ToString()))
+            {
+                Console.WriteLine("Url must be filled.");
+                hasError = true;
+            }
+
+            return hasError;
+        }
+    }
 }

@@ -9,11 +9,6 @@ namespace Scrapping
 {
     public class ProcessGeneration : IProcessGeneration
     {
-
-        private static string url;
-        private static int fromChapterNumber;
-        private static Site site;
-
         private static ISite _siteService;
         private static IDocument _documentService;
 
@@ -25,72 +20,42 @@ namespace Scrapping
         public async Task<int> Process(string[] args)
         {
             var options = new ParseCommande();
+            int fromChapterNumber = 0;
+            Site site = new Site();
 
             if (Parser.Default.ParseArguments(args, options))
             {
                 fromChapterNumber = (options.FromChapterNumber.HasValue && options.FromChapterNumber.Value > 1) ? options.FromChapterNumber.Value - 1 : 0;
-                url = options.Url;
-                site = _documentService.GetSites().FirstOrDefault(s => url.Contains(s.Resolve));
+                site = _documentService.GetSites().FirstOrDefault(s => options.Url.Contains(s.Resolve));
                 site.ChapterName = options.ChapterName;
                 site.linkMode = options.RecoveryLinkMode;
                 site.AbbreviationTitle = options.AbbreviationTitle;
-                site.BaseUrl = new Uri(url);
+                site.BaseUrl = new Uri(options.Url);
             }
 
-            if (HasError())
+            if (site.HasError())
                 return 0;
 
             _siteService = Bootstrapper.ContainerTool.GetInstance<ISite>(site.Type);
             _siteService.SetSite(site);
-            var links = await _siteService.GetAllLinks(url, fromChapterNumber);
-            var folderName = await _siteService.GetMangaName(url);
+
+            var links = await _siteService.GetAllLinks(options.Url, fromChapterNumber);
+            var folderName = await _siteService.GetMangaName(options.Url);
 
             GenerateBook(links, folderName);
 
             return 1;
         }
 
-        private static bool HasError()
-        {
-            bool hasError = false;
-            if (String.IsNullOrEmpty(url))
-            {
-                Console.WriteLine("Url must be filled.");
-                hasError = true;
-            }
-            else if (site == null)
-            {
-                Console.WriteLine("This site is not supported.");
-                hasError = true;
-            }
-
-            return hasError;
-        }
-
         private static void GenerateBook(List<Link> links, string folderName)
         {
             _documentService.CreateNewFolder(folderName);
-            var linksToDownload = RemoveLinksAlreadyDownload(links, folderName);
+            var linksToDownload = _siteService.RemoveLinksAlreadyDownload(links, folderName);
 
             Parallel.ForEach(linksToDownload, currentLink =>
             {
                 _siteService.GenerateFileFromElements(currentLink, folderName);
             });
-        }
-
-        private static List<Link> RemoveLinksAlreadyDownload(List<Link> links, string folderName)
-        {
-            var paths = _documentService.GetAllPath(folderName);
-            if (paths.Length > 0)
-            {
-                foreach (var path in paths)
-                {
-                    var title = path.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries).Last().Replace(".html", "");
-                    links.RemoveAll(l => l.Name == title);
-                }
-            }
-
-            return links;
         }
     }
 }

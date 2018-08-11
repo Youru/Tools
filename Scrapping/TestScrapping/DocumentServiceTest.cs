@@ -63,7 +63,7 @@ namespace TestScrapping
         {
             var folderName = "Toto";
             var documentService = new Document();
-            var path = documentService.GetAllPath(folderName);
+            var path = documentService.GetAllFiles(folderName);
 
             Check.That(path).IsNotNull();
         }
