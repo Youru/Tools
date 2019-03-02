@@ -52,7 +52,9 @@ namespace Scrapping
         {
             _documentService.CreateNewFolder(folderName);
             var linksToDownload = _siteService.RemoveLinksAlreadyDownload(links, folderName);
-
+            Console.WriteLine($"number link to dl :{linksToDownload.Count()}");
+            Console.WriteLine($"Press a key to continue");
+            Console.ReadLine();
             Parallel.ForEach(linksToDownload, currentLink =>
             {
                 _siteService.GenerateFileFromElements(currentLink, folderName);

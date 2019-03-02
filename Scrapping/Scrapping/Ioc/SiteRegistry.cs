@@ -13,7 +13,7 @@ namespace Scrapping.Ioc
             this.For<ISite>().Use<WuxiaWorld>().Named("wuxiaworld");
             this.For<ISite>().Use<MangaLel>().Named("mangalel");
             this.For<ISite>().Use<WebNovel>().Named("webnovel");
-
+            this.For<ISite>().Use<NovelFull>().Named("novelfull");
         }
     }
 }

@@ -88,6 +88,7 @@
     <Compile Include="Service\Replace.cs" />
     <Compile Include="Ioc\SiteRegistry.cs" />
     <Compile Include="Service\Site\AbstractSiteService .cs" />
+    <Compile Include="Service\Site\Novel\NovelFull.cs" />
     <Compile Include="Service\Site\Novel\WebNovel.cs" />
     <Compile Include="Service\Site\Novel\WuxiaWorld.cs" />
     <Compile Include="Service\Site\Novel\Gravitytales.cs" />

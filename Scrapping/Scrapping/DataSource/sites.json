@@ -68,5 +68,15 @@
     "WrongParts": [],
     "Token": "r9GDHubViCaAhbxN8AoJJRTUvGZtpuPuaTtuE3fS",
     "Type": "webnovel"
+  },
+  {
+    "Resolve": "novelfull",
+    "ContentSelector": "#chapter-content ",
+    "LinkSelector": ".list-chapter a",
+    "PageSelector": ".next:not(.disabled)",
+    "ListPageSelector": ".pagination .active",
+    "NameSelector": ".books h3",
+    "WrongParts": [],
+    "Type": "novelfull"
   }
 ]
