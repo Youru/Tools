@@ -13,7 +13,7 @@
     "LinkSelector": ".chapter-item a",
     "NextChapterSelector": ".next a",
     "NextChapterText": "Next Chapter",
-    "NameSelector": ".p-15 >h4",
+    "NameSelector": ".novel-body h2",
     "WrongParts": [ "Previous Chapter", "Teaser for Next Chapter" ],
     "Type": "wuxiaworld"
   },

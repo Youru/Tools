@@ -62,7 +62,7 @@ namespace Scrapping
         => elements.Select(e => new Link()
         {
             Href = ((IHtmlAnchorElement)e).Href,
-            Name = _replace.Content(((IHtmlAnchorElement)e).Title, "-", "[?|:|\"|\\n|/|/]")
+            Name = _replace.Content(((IHtmlAnchorElement)e).Title, "-", "[*|?|:|\"|\\n|/|/]")
         }).ToList();
     }
 }
