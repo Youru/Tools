@@ -11,5 +11,6 @@ namespace Scrapping
         Task<List<Link>> GetAllLinks(string url, int fromChapterNumber);
         Task<string> GetMangaName(string url);
         List<Link> RemoveLinksAlreadyDownload(List<Link> links, string folderName);
+        List<Link> RemainingLinks { get; set; }
     }
 }

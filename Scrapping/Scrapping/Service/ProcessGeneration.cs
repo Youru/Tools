@@ -1,8 +1,10 @@
 ﻿using CommandLine;
 using Scrapping.Ioc;
 using Scrapping.Model;
+using Scrapping.Service;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,6 +25,9 @@ namespace Scrapping
             var options = new ParseCommande();
             int fromChapterNumber = 0;
             Site site = new Site();
+            ImageConverter imageConverter = new ImageConverter();
+            var shouldConvertToComic = false;
+
 
             if (Parser.Default.ParseArguments(args, options))
             {
@@ -32,6 +37,7 @@ namespace Scrapping
                 site.linkMode = options.RecoveryLinkMode;
                 site.AbbreviationTitle = options.AbbreviationTitle;
                 site.BaseUrl = new Uri(options.Url);
+                shouldConvertToComic = options.ConvertToComic;
             }
 
             if (site.HasError())
@@ -45,6 +51,12 @@ namespace Scrapping
 
             GenerateBook(links, folderName);
 
+            if (shouldConvertToComic)
+            {
+                imageConverter.FormatDirectories(Directory.GetCurrentDirectory(), folderName);
+                imageConverter.ToCbz($"{Directory.GetCurrentDirectory()}\\{folderName}", $"{Directory.GetCurrentDirectory()}\\Manga\\{folderName}.cbz");
+            }
+
             return 1;
         }
 
@@ -53,12 +65,37 @@ namespace Scrapping
             _documentService.CreateNewFolder(folderName);
             var linksToDownload = _siteService.RemoveLinksAlreadyDownload(links, folderName);
             Console.WriteLine($"number link to dl :{linksToDownload.Count()}");
-            Console.WriteLine($"Press a key to continue");
-            Console.ReadLine();
             Parallel.ForEach(linksToDownload, currentLink =>
             {
                 _siteService.GenerateFileFromElements(currentLink, folderName);
             });
+
+            if (_siteService.RemainingLinks.Any())
+            {
+                RetryDownloadLink(_siteService, folderName);
+                if (_siteService.RemainingLinks.Any())
+                {
+                    Console.WriteLine($"Links remaining {_siteService.RemainingLinks.Count}");
+                    foreach (var link in _siteService.RemainingLinks)
+                    {
+                        Console.WriteLine(link.Href);
+                    }
+                    Console.ReadLine();
+                }
+            }
+        }
+
+        private static void RetryDownloadLink(ISite _siteService, string folderName)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                var remainingList = new List<Link>(_siteService.RemainingLinks);
+                _siteService.RemainingLinks = new List<Link>();
+                Parallel.ForEach(remainingList, currentLink =>
+                {
+                    _siteService.GenerateFileFromElements(currentLink, folderName);
+                });
+            }
         }
     }
 }

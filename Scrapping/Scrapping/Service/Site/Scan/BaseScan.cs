@@ -72,6 +72,7 @@ namespace Scrapping
             }
             catch (Exception ex)
             {
+                RemainingLinks.Add(link);
                 Trace.TraceError(ex.Message);
             }
         }
@@ -86,7 +87,8 @@ namespace Scrapping
                     var chapterTitle = path.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries).Last();
                     var pathFiles = Directory.GetFiles(path);
 
-                    foreach (var pathFile in pathFiles) {
+                    foreach (var pathFile in pathFiles)
+                    {
                         var fileTitle = pathFile.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries).Last().Replace(".jpg", "");
                         links.RemoveAll(l => l.Name == fileTitle && l.Chapter == chapterTitle);
                     }

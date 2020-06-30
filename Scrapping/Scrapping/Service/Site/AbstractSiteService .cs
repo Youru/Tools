@@ -8,10 +8,12 @@ namespace Scrapping
     public abstract class AbstractSiteService : ISite
     {
         protected Site Site { get; set; }
+        public List<Link> RemainingLinks { get; set; }
 
         public void SetSite(Site site)
         {
             Site = site;
+            RemainingLinks = new List<Link>();
         }
 
         public abstract Task<List<Link>> GetAllLinks(string url, int fromChapterNumber);
@@ -26,7 +28,7 @@ namespace Scrapping
         {
             InnerGenerateFileFromElements(link, folderName).Wait();
         }
-        
+
         protected bool IfElementContainsWrongPart(IElement element)
         {
             foreach (var wrongPart in Site.WrongParts)
@@ -36,6 +38,5 @@ namespace Scrapping
             }
             return false;
         }
-
     }
 }

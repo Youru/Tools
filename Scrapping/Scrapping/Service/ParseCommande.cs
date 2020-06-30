@@ -20,5 +20,8 @@ namespace Scrapping
 
         [Option('c', DefaultValue = null, HelpText = "Chapter Name for gravitytale")]
         public string ChapterName { get; set; }
+
+        [Option("convert", Required = false, HelpText = "Url of the book")]
+        public bool ConvertToComic { get; set; }
     }
 }
