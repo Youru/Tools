@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrapping", "Scrapping\Scrapping.csproj", "{F9892C5B-CDAD-43DA-AD78-3B86398FA0AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestScrapping", "TestScrapping\TestScrapping.csproj", "{CFFC99E4-0D33-4285-B0D9-093618532A2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrappingNewTest", "ScrappingNewTest\ScrappingNewTest.csproj", "{D5F27ED1-1839-4CC7-8100-E25940A73943}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{CFFC99E4-0D33-4285-B0D9-093618532A2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFFC99E4-0D33-4285-B0D9-093618532A2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFFC99E4-0D33-4285-B0D9-093618532A2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F27ED1-1839-4CC7-8100-E25940A73943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F27ED1-1839-4CC7-8100-E25940A73943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F27ED1-1839-4CC7-8100-E25940A73943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F27ED1-1839-4CC7-8100-E25940A73943}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6CBC6F1-2407-4A5E-ADD3-C244F77BB25C}
 	EndGlobalSection
 EndGlobal
