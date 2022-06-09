@@ -26,9 +26,9 @@ namespace Scrapping.DomainServices.Site
         public abstract IEnumerable<Link> RemoveLinksAlreadyDownload(List<Link> Links, string folderName);
 
 
-        public async Task<IEnumerable<Link>> GenerateFilesFromElements(IEnumerable<Link> links, string folderName)
+        public Result GenerateFilesFromElements(IEnumerable<Link> links, string folderName)
         {
-            var remainingLink = new List<Link>();
+            Result result = new Result();
             List<Task<Result>> resultTasks = new List<Task<Result>>();
 
             Parallel.ForEach(links, currentLink =>
@@ -39,22 +39,28 @@ namespace Scrapping.DomainServices.Site
 
             foreach (var task in resultTasks)
             {
-                if (!task.Result.IsSuceed) remainingLink.Add(task.Result.Link);
+                if (!task.Result.HasSuceed)
+                {
+                    task.Result.LinkExceptions.ForEach(le => result.HasFailed(le.Link, le.Exception));
+                }
             }
 
-            return remainingLink;
+            return result;
         }
 
-        public async Task<IEnumerable<Link>> RetryDownloadLinks(string folderName, IEnumerable<Link> links)
+        public Result RetryDownloadLinks(string folderName, IEnumerable<Link> links)
         {
+            var result = new Result();
+
             for (int i = 0; i < 5; i++)
             {
                 if (!links.Any())
-                    return links;
-                links = await GenerateFilesFromElements(links, folderName);
+                    return result;
+                result = GenerateFilesFromElements(links, folderName);
+                links = result.LinkExceptions.Select(le => le.Link);
             }
 
-            return links;
+            return result;
         }
 
         protected bool IfElementContainsWrongPart(IElement element)

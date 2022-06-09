@@ -63,23 +63,20 @@ namespace Scrapping
             return site;
         }
 
-        private async void GenerateBook(List<Link> links, string folderName)
+        private void GenerateBook(List<Link> links, string folderName)
         {
             _documentService.CreateNewFolder(folderName);
             var linksToDownload = _siteService.RemoveLinksAlreadyDownload(links, folderName);
             _logger.LogInformation($"number link to dl :{linksToDownload.Count()}");
-            var remainingLinks = await _siteService.GenerateFilesFromElements(linksToDownload, folderName);
+            var result = _siteService.GenerateFilesFromElements(linksToDownload, folderName);
 
-            if (remainingLinks.Any())
+            if (!result.HasSuceed)
             {
-                remainingLinks = await _siteService.RetryDownloadLinks(folderName, remainingLinks);
-                if (remainingLinks.Any())
+                result = _siteService.RetryDownloadLinks(folderName, result.LinkExceptions.Select(le => le.Link));
+                if (!result.HasSuceed)
                 {
-                    _logger.LogInformation($"Links remaining {remainingLinks.ToList().Count}");
-                    foreach (var link in remainingLinks)
-                    {
-                        _logger.LogInformation(link.Href);
-                    }
+                    _logger.LogInformation($"Links remaining {result.LinkExceptions.Count}");
+                    result.LinkExceptions.ForEach(le => _logger.LogInformation(le.Link.Href, le.Exception.Message));
                 }
             }
         }

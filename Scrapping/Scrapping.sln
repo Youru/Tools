@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestScrapping", "TestScrapping\TestScrapping.csproj", "{CFFC99E4-0D33-4285-B0D9-093618532A2F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrapping", "ScrappingNewTest\Scrapping.csproj", "{D5F27ED1-1839-4CC7-8100-E25940A73943}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scrapping", "Scrapping\Scrapping.csproj", "{D5F27ED1-1839-4CC7-8100-E25940A73943}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrapping.Domain", "Scrapping.Domain\Scrapping.Domain.csproj", "{E96584F6-A042-4F3E-AAE9-0A6ACAA4E789}"
 EndProject

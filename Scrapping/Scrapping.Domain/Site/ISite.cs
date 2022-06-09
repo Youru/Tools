@@ -11,7 +11,7 @@ namespace Scrapping.Domain.Interfaces
         Task<List<Link>> GetAllLinks(int fromChapterNumber = 0);
         Task<string> GetMangaName();
         IEnumerable<Link> RemoveLinksAlreadyDownload(List<Link> links, string folderName);
-        Task<IEnumerable<Link>> GenerateFilesFromElements(IEnumerable<Link> link, string folderName);
-        Task<IEnumerable<Link>> RetryDownloadLinks(string folderName, IEnumerable<Link> links);
+        Result GenerateFilesFromElements(IEnumerable<Link> link, string folderName);
+        Result RetryDownloadLinks(string folderName, IEnumerable<Link> links);
     }
 }

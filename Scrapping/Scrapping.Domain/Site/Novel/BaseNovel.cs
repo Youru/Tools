@@ -14,7 +14,6 @@ namespace Scrapping.DomainServices.Site.Novel
         private IReplace _replace;
         private IAngleScrap _angleScrapService;
         private IDocument _documentService;
-        //private readonly ILogger<BaseNovel> _logger;
 
         public override SiteEnum SiteType => SiteEnum.Novel;
 
@@ -88,7 +87,6 @@ namespace Scrapping.DomainServices.Site.Novel
         {
             var Result = new Result();
             StringBuilder text = new StringBuilder();
-            //_logger.LogInformation($"Trying to dl {link.Name} with url {link.Href}");
             try
             {
                 int i = 0;
