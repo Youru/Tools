@@ -1,6 +1,7 @@
 ﻿using CommandLine;
+using Scrapping.Domain.Model;
 
-namespace ScrappingNewTest.Model
+namespace Scrapping.Model
 {
     public class Options
     {

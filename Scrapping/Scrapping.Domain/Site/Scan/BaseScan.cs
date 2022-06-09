@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using AngleSharp.Html.Dom;
+using Scrapping.Domain.Model;
+using Scrapping.Interfaces;
+
+namespace Scrapping.DomainServices.Site.Scan
+{
+    public class BaseScan : AbstractSite
+    {
+        public override SiteEnum SiteType => SiteEnum.Scan;
+        private IReplace _replace;
+        private IAngleScrap _angleScrapService;
+        private IDocument _documentService;
+
+        public BaseScan(IReplace replace, IAngleScrap angleScrapService, IDocument documentService)
+        {
+            _replace = replace;
+            _angleScrapService = angleScrapService;
+            _documentService = documentService;
+        }
+
+        public override async Task<List<Link>> GetAllLinks(int fromChapterNumber = 0)
+        {
+            var links = new List<Link>();
+            var elements = await _angleScrapService.GetElements(SiteSelector.Url, SiteSelector.LinkSelector);
+
+            foreach (var element in elements.Skip(fromChapterNumber))
+            {
+                var elem = element as IHtmlAnchorElement;
+                var page = await _angleScrapService.GetElement(elem.Href, SiteSelector.PageSelector);
+                if (page != null)
+                {
+                    var pages = page.QuerySelectorAll(SiteSelector.ListPageSelector);
+                    var chapterName = page.QuerySelector(SiteSelector.ChapterNameSelector);
+                    pages.ToList().ForEach(p => links.Add(new Link() { Href = $"{elem.Href}/{p.TextContent}", Chapter = chapterName.TextContent, Name = $"{int.Parse(p.TextContent):D3}" }));
+                }
+            }
+
+            return links;
+        }
+
+        public override async Task<string> GetMangaName()
+        {
+            var element = await _angleScrapService.GetElement(SiteSelector.Url, SiteSelector.NameSelector);
+
+            return _replace.Content(element.TextContent, "", "[?|:|\"|\\n|/|/]");
+        }
+
+        protected override async Task<Result> InnerGenerateFileFromElements(Link link, string folderName)
+        {
+            var Result = new Result();
+            StringBuilder text = new StringBuilder();
+
+            //_logger.LogInformation($"Trying to dl {link.Name} with url {link.Href}");
+            try
+            {
+                var element = (IHtmlImageElement)await _angleScrapService.GetElement(link.Href, SiteSelector.ContentSelector);
+
+                if (!String.IsNullOrEmpty(element.Source))
+                {
+                    _documentService.DownloadNewPicture(folderName, link.Name, element.Source, link.Chapter);
+                }
+
+                //_logger.LogInformation($"{link.Name} has been downloaded");
+            }
+            catch (Exception ex)
+            {
+                Result.HasFailed(link, ex);
+                //_logger.LogError(ex.Message);
+            }
+
+            return Result;
+        }
+
+        public override IEnumerable<Link> RemoveLinksAlreadyDownload(List<Link> links, string folderName)
+        {
+            var paths = _documentService.GetAllFolders(folderName);
+            if (paths.Count() > 0)
+            {
+                foreach (var path in paths)
+                {
+                    var chapterTitle = path.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries).Last();
+                    var pathFiles = Directory.GetFiles(path);
+
+                    foreach (var pathFile in pathFiles)
+                    {
+                        var fileTitle = pathFile.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries).Last().Replace(".jpg", "");
+                        links.RemoveAll(l => l.Name == fileTitle && l.Chapter == chapterTitle);
+                    }
+                }
+            }
+
+            return links;
+        }
+    }
+}

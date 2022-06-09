@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Scrapping": {
+      "commandName": "Project",
+      "commandLineArgs": "-u \"https://www.readlightnovel.me/overgeared-041222\""
+    }
+  }
+}

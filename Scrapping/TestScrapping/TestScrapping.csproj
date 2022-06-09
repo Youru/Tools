@@ -81,12 +81,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Scrapping\Scrapping.csproj">
-      <Project>{f9892c5b-cdad-43da-ad78-3b86398fa0ac}</Project>
-      <Name>Scrapping</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

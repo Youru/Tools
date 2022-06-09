@@ -5,7 +5,7 @@
     "LinkSelector": ".entry-content a",
     "NameSelector": ".site-branding .site-description",
     "WrongParts": [],
-    "Type": "novel"
+    "Type": "Novel"
   },
   {
     "Resolve": "wuxiaworld.com",
@@ -13,9 +13,9 @@
     "LinkSelector": ".chapter-item a",
     "NextChapterSelector": ".next a",
     "NextChapterText": "Next Chapter",
-    "NameSelector": ".novel-body h2",
+    "NameSelector": ".MuiTypography-h1",
     "WrongParts": [ "Previous Chapter", "Teaser for Next Chapter" ],
-    "Type": "wuxiaworld"
+    "Type": "Wuxiaworld"
   },
   {
     "Resolve": "translationnations.com",
@@ -23,7 +23,7 @@
     "LinkSelector": ".entry-content a",
     "NameSelector": ".entry-header > h1",
     "WrongParts": [ "Translated by", "Edited by" ],
-    "Type": "novel"
+    "Type": "Novel"
   },
   {
     "Resolve": "royalroadweed.blogspot.fr/",
@@ -31,15 +31,15 @@
     "LinkSelector": ".post-entry a",
     "NameSelector": ".post-header h1",
     "WrongParts": [],
-    "Type": "novel"
+    "Type": "Novel"
   },
   {
     "Resolve": "readlightnovel",
-    "ContentSelector": ".chapter-content3 .desc",
+    "ContentSelector": "#growfoodsmart",
     "LinkSelector": ".chapter-chs li a",
     "NameSelector": ".block-title h1",
     "WrongParts": [],
-    "Type": "novel"
+    "Type": "Novel"
   },
   {
     "Resolve": "gravitytales",
@@ -47,7 +47,7 @@
     "LinkSelector": ".tab-content a",
     "NameSelector": "#contentElement h3",
     "WrongParts": [],
-    "Type": "gravitytales"
+    "Type": "Gravitytales"
   },
   {
     "Resolve": "mangareader.net",
@@ -60,7 +60,7 @@
     "ChapterNameSelector": "#mangainfo div:first-child h1",
     "PatternPageNumber": "\\d+.html",
     "PatternChapterNumber": "Page \\d+",
-    "Type": "scan"
+    "Type": "Scan"
   },
   {
     "Resolve": "mangapanda.com",
@@ -73,7 +73,7 @@
     "ChapterNameSelector": "#mangainfo div:first-child h1",
     "PatternPageNumber": "\\d+.html",
     "PatternChapterNumber": "Page \\d+",
-    "Type": "scan"
+    "Type": "Scan"
   },
   {
     "Resolve": "manga-lel.com",
@@ -81,14 +81,14 @@
     "LinkSelector": ".chapter-title-rtl a",
     "NameSelector": ".widget-title",
     "WrongParts": [],
-    "Type": "mangalel"
+    "Type": "Mangalel"
   },
   {
     "Resolve": "webnovel.com",
     "ContentSelector": ".chapter_content h3,.cha-words p",
     "WrongParts": [],
     "Token": "r9GDHubViCaAhbxN8AoJJRTUvGZtpuPuaTtuE3fS",
-    "Type": "webnovel"
+    "Type": "Webnovel"
   },
   {
     "Resolve": "novelfull",
@@ -98,6 +98,6 @@
     "ListPageSelector": ".pagination .active",
     "NameSelector": ".books h3",
     "WrongParts": [],
-    "Type": "novelfull"
+    "Type": "Novelfull"
   }
 ]

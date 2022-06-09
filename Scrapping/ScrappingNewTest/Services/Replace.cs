@@ -1,7 +1,7 @@
-﻿using ScrappingNewTest.Interfaces;
+﻿using Scrapping.Interfaces;
 using System.Text.RegularExpressions;
 
-namespace ScrappingNewTest.Services
+namespace Scrapping.Services
 {
     public class Replace : IReplace
     {

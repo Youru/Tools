@@ -1,22 +1,25 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
-using ScrappingNewTest.Interfaces;
+using Scrapping.Interfaces;
 using System.Threading.Tasks;
 
-namespace ScrappingNewTest.Services
+namespace Scrapping.Services
 {
     public class AngleScrap : IAngleScrap
     {
-        public IBrowsingContext GetContext()
-        {
-            var configuration = Configuration.Default.WithDefaultLoader();
-            var context = BrowsingContext.New(configuration);
 
-            return (BrowsingContext)context;
+        public async Task<string> GetTextContent(string url)
+        {
+            var context = GetContext();
+
+            var document = await context.OpenAsync(url);
+
+            return document.Body.TextContent;
         }
 
-        public async Task<IElement> GetElement(IBrowsingContext context, string url, string selector)
+        public async Task<IElement> GetElement(string url, string selector)
         {
+            var context = GetContext();
 
             await context.OpenAsync(url);
             var contentSearch = context.Active.QuerySelector(selector);
@@ -24,8 +27,9 @@ namespace ScrappingNewTest.Services
             return contentSearch;
         }
 
-        public async Task<IHtmlCollection<IElement>> GetElements(IBrowsingContext context, string url,string selector)
+        public async Task<IHtmlCollection<IElement>> GetElements(string url, string selector)
         {
+            var context = GetContext();
 
             await context.OpenAsync(url);
             var contentSearch = context.Active.QuerySelectorAll(selector);
@@ -33,6 +37,15 @@ namespace ScrappingNewTest.Services
             return contentSearch;
         }
 
+
+        private IBrowsingContext GetContext()
+        {
+            var configuration = Configuration.Default.WithDefaultLoader();
+            var context = BrowsingContext.New(configuration);
+
+            return (BrowsingContext)context;
+        }
+
     }
-    
+
 }

@@ -1,12 +1,12 @@
-﻿using ScrappingNewTest.Model;
+﻿using Scrapping.Domain.Model;
 using System;
 using System.Linq;
 
-namespace ScrappingNewTest.Helpers
+namespace Scrapping.Helpers
 {
     public static class SiteHelper
     {
-        public static Site GetSiteByUrl(string url)
+        public static SiteSelector GetSiteByUrl(string url)
         {
             var sites = DataHelper.GetSites();
             var site = sites.FirstOrDefault(s => url.Contains(s.Resolve));

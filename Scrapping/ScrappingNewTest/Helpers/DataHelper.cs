@@ -1,21 +1,21 @@
 ﻿using Newtonsoft.Json;
-using ScrappingNewTest.Model;
+using Scrapping.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ScrappingNewTest.Helpers
+namespace Scrapping.Helpers
 {
     public static class DataHelper
     {
 
-        public static IEnumerable<Site> GetSites()
+        public static IEnumerable<SiteSelector> GetSites()
         {
 
             var pathFile = $"{AppDomain.CurrentDomain.BaseDirectory}\\DataSource\\sites.json";
             if (File.Exists(pathFile))
             {
-                return JsonConvert.DeserializeObject<IEnumerable<Site>>(File.ReadAllText(pathFile));
+                return JsonConvert.DeserializeObject<IEnumerable<SiteSelector>>(File.ReadAllText(pathFile));
             }
             else
             {

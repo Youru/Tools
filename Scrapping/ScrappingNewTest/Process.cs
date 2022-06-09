@@ -1,34 +1,36 @@
 ﻿using CommandLine;
 using Microsoft.Extensions.Logging;
-using ScrappingNewTest.Helpers;
-using ScrappingNewTest.Interfaces;
-using ScrappingNewTest.Model;
+using Scrapping.Model;
+using Scrapping.Helpers;
+using Scrapping.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Scrapping.Domain.Interfaces;
+using Scrapping.Site;
+using Scrapping.Domain.Model;
 
-namespace ScrappingNewTest
+namespace Scrapping
 {
     public class Process
     {
         private readonly ILogger<Process> _logger;
-        private readonly Func<string, ISite> _getSiteService;
+        private readonly FactorySite _factorySite;
         private readonly IDocument _documentService;
         private static ISite _siteService;
 
-        public Process(ILogger<Process> logger, Func<string, ISite> getSiteService, IDocument documentService)
+        public Process(ILogger<Process> logger, FactorySite factorySite, IDocument documentService)
         {
             _logger = logger;
-            _getSiteService = getSiteService;
+            _factorySite = factorySite;
             _documentService = documentService;
         }
 
         public async Task<int> Run(string[] args)
         {
-            var options = new Options();
-            Site site = GetSiteFromArgs(args);
-            _siteService = _getSiteService(site.Type);
+            SiteSelector site = GetSiteFromArgs(args);
+            _siteService = _factorySite.GetSite(site.Type);
             _siteService.SetSite(site);
 
             var links = await _siteService.GetAllLinks();
@@ -41,9 +43,9 @@ namespace ScrappingNewTest
 
         }
 
-        private Site GetSiteFromArgs(string[] args)
+        private SiteSelector GetSiteFromArgs(string[] args)
         {
-            Site site = null;
+            SiteSelector site = null;
 
             Parser.Default.ParseArguments<Options>(args)
             .WithParsed((options) =>
@@ -61,42 +63,25 @@ namespace ScrappingNewTest
             return site;
         }
 
-        private void GenerateBook(List<Link> links, string folderName)
+        private async void GenerateBook(List<Link> links, string folderName)
         {
             _documentService.CreateNewFolder(folderName);
             var linksToDownload = _siteService.RemoveLinksAlreadyDownload(links, folderName);
             _logger.LogInformation($"number link to dl :{linksToDownload.Count()}");
-            Parallel.ForEach(linksToDownload, currentLink =>
-            {
-                _siteService.GenerateFileFromElements(currentLink, folderName);
-            });
+            var remainingLinks = await _siteService.GenerateFilesFromElements(linksToDownload, folderName);
 
-            if (_siteService.RemainingLinks.Any())
+            if (remainingLinks.Any())
             {
-                RetryDownloadLink(_siteService, folderName);
-                if (_siteService.RemainingLinks.Any())
+                remainingLinks = await _siteService.RetryDownloadLinks(folderName, remainingLinks);
+                if (remainingLinks.Any())
                 {
-                    _logger.LogInformation($"Links remaining {_siteService.RemainingLinks.Count}");
-                    foreach (var link in _siteService.RemainingLinks)
+                    _logger.LogInformation($"Links remaining {remainingLinks.ToList().Count}");
+                    foreach (var link in remainingLinks)
                     {
                         _logger.LogInformation(link.Href);
                     }
                 }
             }
         }
-
-        private void RetryDownloadLink(ISite _siteService, string folderName)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                var remainingList = new List<Link>(_siteService.RemainingLinks);
-                _siteService.RemainingLinks = new List<Link>();
-                Parallel.ForEach(remainingList, currentLink =>
-                {
-                    _siteService.GenerateFileFromElements(currentLink, folderName);
-                });
-            }
-        }
-
     }
 }

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using Newtonsoft.Json;
 using System.Net;
-using ScrappingNewTest.Interfaces;
+using Scrapping.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace ScrappingNewTest.Services
+namespace Scrapping.Services
 {
     public class Document : IDocument
     {
@@ -30,6 +29,7 @@ namespace ScrappingNewTest.Services
 
             try
             {
+                _logger.LogInformation($"{fileName} has been downloaded");
                 File.WriteAllText(filePath, texte.ToString(), Encoding.UTF8);
             }
             catch (Exception ex)
@@ -48,6 +48,7 @@ namespace ScrappingNewTest.Services
 
             try
             {
+                _logger.LogInformation($"{fileName} has been downloaded");
                 using (WebClient client = new WebClient())
                 {
                     client.DownloadFile(new Uri(url), filePath);
@@ -70,19 +71,6 @@ namespace ScrappingNewTest.Services
         {
             var currentPath = Directory.GetCurrentDirectory();
             return Directory.EnumerateDirectories(currentPath + "\\" + folderName);
-        }
-
-        public IEnumerable<Model.Site> GetSites()
-        {
-            var pathFile = $"{AppDomain.CurrentDomain.BaseDirectory}\\DataSource\\sites.json";
-            if (File.Exists(pathFile))
-            {
-                return JsonConvert.DeserializeObject<IEnumerable<Model.Site>>(File.ReadAllText(pathFile));
-            }
-            else
-            {
-                return new List<Model.Site>();
-            }
         }
     }
 }
