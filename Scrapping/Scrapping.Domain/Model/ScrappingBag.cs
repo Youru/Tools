@@ -15,7 +15,6 @@ namespace Scrapping.Domain.Model
         public StringBuilder ChapterContent { get; private set; }
         public List<Link> Links { get; private set; } = new List<Link>();
         public Link Link { get; private set; }
-        //public (string, string) UrlAndText { get; private set; }
 
         public void SetTitle(string title) => Title = title;
         public void SetUrl(string url) => Url = url;

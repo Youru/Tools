@@ -8,14 +8,16 @@ namespace Scrapping.Helpers
     {
         public static SiteSelector GetSiteByUrl(string url)
         {
-            var sites = DataHelper.GetSites();
-            var site = sites.FirstOrDefault(s => url.Contains(s.Resolve));
-            site.Url = url;
+            var siteSelectors = DataHelper.GetSiteSelectors();
+            var siteSelector = siteSelectors.FirstOrDefault(s => url.Contains(s.Resolve));
+            siteSelector.Url = url;
 
-            if (site.HasError())
-                throw new Exception("Missing fields for site");
+            var result = siteSelector.Validate();
 
-            return site;
+            if (result.Any())
+                throw new Exception($"Missing fields for site : {string.Join(" | ", result)}");
+
+            return siteSelector;
         }
     }
 }

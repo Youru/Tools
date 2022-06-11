@@ -5,14 +5,13 @@
 - Anglesharp
 - Commandline
 - Newtonjsoft
-- Structure Map
     
 ### Usage : Go to the folder where the scrapping exe is
 ```
     General case
-    -u "http://www.wuxiaworld.com/wmw-index/"
-    -u "http://www.wuxiaworld.com/wmw-index/" -f 150 (To start from the chapter/link 150)
-    -u "http://www.wuxiaworld.com/ti-index/ti-vol-17-chapter-5-1/" -r 1 (To start from this url)
+    -u "https://www.readlightnovel.me/overgeared-052322"
+    -u "https://www.readlightnovel.me/overgeared-052322" -f 150 (To start from the chapter/link 150)
+    -u "https://www.readlightnovel.me/overgeared-052322/chapter-1618" -r 1 (To start from this url)
     
     
     /!\ Specific gravitytales /!\ (Content added dynamically)

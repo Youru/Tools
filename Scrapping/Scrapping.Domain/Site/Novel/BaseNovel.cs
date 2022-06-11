@@ -55,7 +55,7 @@ namespace Scrapping.DomainServices.Site.Novel
                 {
                     break;
                 }
-
+                nextChapterUrl = scrappingBag.Link.Href;
                 links.Add(scrappingBag.Link);
             }
 
@@ -65,8 +65,7 @@ namespace Scrapping.DomainServices.Site.Novel
         public override async Task<string> GetMangaName()
         {
             var scrappingBag = await _angleScrapService.GetScrappingBagWithTextContent(SiteSelector.Url, SiteSelector.NameSelector);
-
-            return _replace.Content(scrappingBag.TextContent, "", "[?|:|\"|\\n|/|/]");
+            return _replace.Content(scrappingBag.TextContent, "", "[?|:|\"|\\n|/|/|-| ]");
         }
 
         protected override async Task<Result> InnerGenerateFileFromElements(Link link, string folderName)

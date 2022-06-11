@@ -2,7 +2,7 @@
   "profiles": {
     "Scrapping": {
       "commandName": "Project",
-      "commandLineArgs": "-u \"https://www.readlightnovel.me/overgeared-041222\""
+      "commandLineArgs": "-u \"https://www.readlightnovel.me/overgeared-052322\" -f 1635"
     }
   }
 }

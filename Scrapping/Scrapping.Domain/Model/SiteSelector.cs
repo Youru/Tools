@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Scrapping.Domain.Model
 {
@@ -30,16 +31,15 @@ namespace Scrapping.Domain.Model
         public LinkModeEnum linkMode;
 
 
-        public bool HasError()
+        public List<string> Validate()
         {
-            bool hasError = false;
+            List<string> results = new();
             if (String.IsNullOrEmpty(BaseUrl.ToString()))
             {
-                //_logger.LogError("Url must be filled.");
-                hasError = true;
+                results.Add("Url Must Be Filled");
             }
 
-            return hasError;
+            return results;
         }
     }
 }

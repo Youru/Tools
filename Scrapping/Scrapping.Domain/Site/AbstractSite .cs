@@ -11,7 +11,7 @@ namespace Scrapping.DomainServices.Site
         protected SiteSelector SiteSelector { get; set; }
         public abstract SiteEnum SiteType { get; }
 
-        public void SetSite(SiteSelector site)
+        public void SetSiteSelector(SiteSelector site)
         {
             SiteSelector = site;
         }

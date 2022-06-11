@@ -43,7 +43,6 @@ namespace Scrapping.DomainServices.Site.Scan
             var Result = new Result();
             StringBuilder text = new StringBuilder();
 
-            //_logger.LogInformation($"Trying to dl {link.Name} with url {link.Href}");
             try
             {
                 var scrappingBag = await _angleScrapService.GetScrappingBagWithSource(link.Href, SiteSelector.ContentSelector);
@@ -53,12 +52,10 @@ namespace Scrapping.DomainServices.Site.Scan
                     _documentService.DownloadNewPicture(folderName, link.Name, scrappingBag.Source, link.Chapter);
                 }
 
-                //_logger.LogInformation($"{link.Name} has been downloaded");
             }
             catch (Exception ex)
             {
                 Result.HasFailed(link, ex);
-                //_logger.LogError(ex.Message);
             }
 
             return Result;

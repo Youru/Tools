@@ -38,6 +38,7 @@
     "ContentSelector": "#growfoodsmart",
     "LinkSelector": ".chapter-chs li a",
     "NameSelector": ".block-title h1",
+    "NextChapterSelector": ".next.next-link",
     "WrongParts": [],
     "Type": "Novel"
   },

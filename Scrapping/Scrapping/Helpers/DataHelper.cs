@@ -9,7 +9,7 @@ namespace Scrapping.Helpers
     public static class DataHelper
     {
 
-        public static IEnumerable<SiteSelector> GetSites()
+        public static IEnumerable<SiteSelector> GetSiteSelectors()
         {
 
             var pathFile = $"{AppDomain.CurrentDomain.BaseDirectory}\\DataSource\\sites.json";

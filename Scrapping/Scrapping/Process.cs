@@ -19,6 +19,7 @@ namespace Scrapping
         private readonly FactorySite _factorySite;
         private readonly IDocument _documentService;
         private static ISite _siteService;
+        private static int _fromChapterNumber;
 
         public Process(ILogger<Process> logger, FactorySite factorySite, IDocument documentService)
         {
@@ -29,21 +30,22 @@ namespace Scrapping
 
         public async Task<int> Run(string[] args)
         {
-            SiteSelector site = GetSiteFromArgs(args);
-            _siteService = _factorySite.GetSite(site.Type);
-            _siteService.SetSite(site);
+            SiteSelector siteSelector = GetSiteSelectorFromArgs(args);
+            _siteService = _factorySite.GetSite(siteSelector.Type);
+            _siteService.SetSiteSelector(siteSelector);
 
-            var links = await _siteService.GetAllLinks();
+            var links = await _siteService.GetAllLinks(_fromChapterNumber);
             var folderName = await _siteService.GetMangaName();
+            _documentService.CreateNewFolder(folderName);
+            var linksToDownload = _siteService.RemoveLinksAlreadyDownload(links, folderName);
 
-
-            GenerateBook(links, folderName);
+            GenerateBook(linksToDownload, folderName);
 
             return 1;
 
         }
 
-        private SiteSelector GetSiteFromArgs(string[] args)
+        private SiteSelector GetSiteSelectorFromArgs(string[] args)
         {
             SiteSelector site = null;
 
@@ -54,6 +56,7 @@ namespace Scrapping
                 site.ChapterName = options.ChapterName;
                 site.linkMode = options.RecoveryLinkMode;
                 site.AbbreviationTitle = options.AbbreviationTitle;
+                _fromChapterNumber = options.FromChapterNumber ?? 0;
             })
             .WithNotParsed((errs) =>
             {
@@ -63,12 +66,10 @@ namespace Scrapping
             return site;
         }
 
-        private void GenerateBook(List<Link> links, string folderName)
+        private void GenerateBook(IEnumerable<Link> links, string folderName)
         {
-            _documentService.CreateNewFolder(folderName);
-            var linksToDownload = _siteService.RemoveLinksAlreadyDownload(links, folderName);
-            _logger.LogInformation($"number link to dl :{linksToDownload.Count()}");
-            var result = _siteService.GenerateFilesFromElements(linksToDownload, folderName);
+            _logger.LogInformation($"number link to dl :{links.Count()}");
+            var result = _siteService.GenerateFilesFromElements(links, folderName);
 
             if (!result.HasSuceed)
             {

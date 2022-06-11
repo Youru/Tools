@@ -73,15 +73,19 @@ namespace Scrapping.Services
 
             return scrappingBag;
         }
-        public async Task<ScrappingBag> GetScrappingBagWithLink(string nextChapterUrl, string selector)
+        public async Task<ScrappingBag> GetScrappingBagWithLink(string url, string selector)
         {
             ScrappingBag scrappingBag = new();
 
-            var hrefList = await GetElements(nextChapterUrl, selector);
+            var hrefList = await GetElements(url, selector);
             var element = hrefList.FirstOrDefault();
+
+            if (element is null) return scrappingBag;
+
             var text = _replace.Content(((IHtmlAnchorElement)element)?.PathName, "", "[*|?|:|\"|\\n|/|/]");
 
             scrappingBag.SetUrlAndText(element?.GetAttribute("href"), text);
+
 
             return scrappingBag;
         }
