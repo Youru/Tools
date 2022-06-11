@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using AngleSharp.Dom;
 using System.Linq;
 using Scrapping.Domain.Interfaces;
 using Scrapping.Domain.Model;
@@ -61,17 +60,6 @@ namespace Scrapping.DomainServices.Site
             }
 
             return result;
-        }
-
-        protected bool IfElementContainsWrongPart(IElement element)
-        {
-            foreach (var wrongPart in SiteSelector.WrongParts)
-            {
-                if (element.InnerHtml.Contains(wrongPart))
-                    return true;
-            }
-
-            return false;
         }
     }
 }

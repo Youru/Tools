@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AngleSharp.Html.Dom;
+using Scrapping.Domain.Interfaces;
 using Scrapping.Domain.Model;
 using Scrapping.Interfaces;
 
@@ -12,9 +11,9 @@ namespace Scrapping.DomainServices.Site.Novel
     {
         public override SiteEnum SiteType => SiteEnum.Wuxiaworld;
         private IReplace _replace;
-        private IAngleScrap _angleScrapService;
+        private IScrappingService _angleScrapService;
 
-        public WuxiaWorld(IReplace replace, IAngleScrap angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
+        public WuxiaWorld(IReplace replace, IScrappingService angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
         {
             _replace = replace;
             _angleScrapService = angleScrapService;
@@ -35,13 +34,9 @@ namespace Scrapping.DomainServices.Site.Novel
 
         private async Task<List<Link>> GetIndexLinks(int fromChapterNumber)
         {
-            var elements = await _angleScrapService.GetElements(SiteSelector.Url, SiteSelector.LinkSelector);
+            var scrappingBag = await _angleScrapService.GetScrappingBagWithLinks(SiteSelector.Url, SiteSelector.LinkSelector);
 
-            return elements.Select(e => new Link()
-            {
-                Href = new Uri(SiteSelector.BaseUrl, e.GetAttribute("href")).ToString(),
-                Name = _replace.Content(((IHtmlAnchorElement)e).PathName, "", "[?|:|\"|\\n|/|/]")
-            }).Skip(fromChapterNumber).ToList();
+            return scrappingBag.Links.Skip(fromChapterNumber).ToList();
         }
 
         private List<Link> GetChapterLinks(int fromChapterNumber)
@@ -51,23 +46,19 @@ namespace Scrapping.DomainServices.Site.Novel
 
             while (true)
             {
-                var hrefList = _angleScrapService.GetElements(nextChapterUrl, SiteSelector.NextChapterSelector).Result;
-                var element = hrefList.FirstOrDefault();
+                var scrappingBag = _angleScrapService.GetScrappingBagWithLinks(nextChapterUrl, SiteSelector.NextChapterSelector).Result;
+                var firstLink = scrappingBag.Links.FirstOrDefault();
 
-                if (element == null || links.Count > 0 && element.GetAttribute("href") == links.Last()?.Href)
+                if (firstLink == null || links.Count > 0 && firstLink.Href == links.Last()?.Href)
                 {
                     break;
                 }
 
-                nextChapterUrl = element.GetAttribute("href");
+                nextChapterUrl = firstLink.Href;
 
 
 
-                links.Add(new Link
-                {
-                    Href = nextChapterUrl,
-                    Name = _replace.Content(((IHtmlAnchorElement)element).PathName, "", "[?|:|\"|\\n|/|/]")
-                });
+                links.Add(firstLink);
             }
 
             return links;

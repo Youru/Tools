@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Scrapping.Domain.Interfaces;
 using Scrapping.Domain.Model;
-using AngleSharp.Html.Dom;
-using AngleSharp.Dom;
 using Scrapping.Interfaces;
 
 namespace Scrapping.DomainServices.Site.Novel
@@ -13,9 +10,9 @@ namespace Scrapping.DomainServices.Site.Novel
     {
         public override SiteEnum SiteType => SiteEnum.Novelfull;
         private IReplace _replace;
-        private IAngleScrap _angleScrapService;
+        private IScrappingService _angleScrapService;
 
-        public NovelFull(IReplace replace, IAngleScrap angleScrapService, Interfaces.IDocument documentService) : base(replace, angleScrapService, documentService)
+        public NovelFull(IReplace replace, IScrappingService angleScrapService, Interfaces.IDocument documentService) : base(replace, angleScrapService, documentService)
         {
             _replace = replace;
             _angleScrapService = angleScrapService;
@@ -29,36 +26,16 @@ namespace Scrapping.DomainServices.Site.Novel
 
             while (!lastPage)
             {
-                var elements = await _angleScrapService.GetElements(pageUrl, SiteSelector.LinkSelector);
+                var scrappingBag = await _angleScrapService.GetScrappingBagWithTitleLinks(pageUrl, SiteSelector.LinkSelector);
 
-                listLink.AddRange(CreateListLinks(elements));
+                listLink.AddRange(scrappingBag.Links);
 
-                pageUrl = await GetNextPage(pageUrl, SiteSelector.Url);
+                var scrappingBagWithUrl = await _angleScrapService.GetScrappingBagWithNextPageUrl(pageUrl, SiteSelector);
+                pageUrl = scrappingBagWithUrl.Url;
                 lastPage = pageUrl == null;
             }
 
             return listLink;
         }
-
-        private async Task<string> GetNextPage(string url, string rootUrl)
-        {
-            var pageSelector = await _angleScrapService.GetElements(url, SiteSelector.PageSelector);
-            string nextUrl = null;
-
-            if (pageSelector.Length > 0)
-            {
-                var numberPageSelection = await _angleScrapService.GetElements(url, SiteSelector.ListPageSelector);
-                nextUrl = $"{rootUrl}?page={Int32.Parse(numberPageSelection[0].TextContent) + 1}";
-            }
-
-            return nextUrl;
-        }
-
-        private List<Link> CreateListLinks(IHtmlCollection<IElement> elements)
-        => elements.Select(e => new Link()
-        {
-            Href = ((IHtmlAnchorElement)e).Href,
-            Name = _replace.Content(((IHtmlAnchorElement)e).Title, "-", "[*|?|:|\"|\\n|/|/]")
-        }).ToList();
     }
 }

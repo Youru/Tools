@@ -1,4 +1,5 @@
-﻿using Scrapping.Domain.Model;
+﻿using Scrapping.Domain.Interfaces;
+using Scrapping.Domain.Model;
 using Scrapping.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace Scrapping.DomainServices.Site.Novel
     public class Gravitytales : BaseNovel
     {
         public override SiteEnum SiteType => SiteEnum.Gravitytales;
-        public Gravitytales(IReplace replace, IAngleScrap angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
+        public Gravitytales(IReplace replace, IScrappingService angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
         {
         }
 
@@ -20,7 +21,7 @@ namespace Scrapping.DomainServices.Site.Novel
             {
                 for (int i = 0; i <= fromChapterNumber; i++)
                 {
-                    listLink.Add(new Link() { Name = $"chapter - {i:D3}", Href = $"{SiteSelector.Url}{SiteSelector.AbbreviationTitle}{SiteSelector.ChapterName}{i}" });
+                    listLink.Add(new Link($"{SiteSelector.Url}{SiteSelector.AbbreviationTitle}{SiteSelector.ChapterName}{i}", $"chapter - {i:D3}")) ;
                 }
             });
 

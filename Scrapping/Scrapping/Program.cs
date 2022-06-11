@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
+using Scrapping.Domain.Interfaces;
 using Scrapping.Interfaces;
 using Scrapping.Services;
 using Scrapping.Site;
@@ -41,7 +42,7 @@ namespace Scrapping
             services.AddTransient<Process>();
             services.AddSingleton<IDocument, Document>();
             services.AddSingleton<IReplace, Replace>();
-            services.AddSingleton<IAngleScrap, AngleScrap>();
+            services.AddSingleton<IScrappingService, AngleScrap>();
             services.AddSingleton<FactorySite>();
             FactorySite.Configures(ref services);
             services.AddLogging(loggingBuilder =>

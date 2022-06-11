@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AngleSharp.Html.Dom;
+using Scrapping.Domain.Interfaces;
 using Scrapping.Domain.Model;
 using Scrapping.Interfaces;
 
@@ -14,10 +14,10 @@ namespace Scrapping.DomainServices.Site.Scan
     {
         public override SiteEnum SiteType => SiteEnum.Scan;
         private IReplace _replace;
-        private IAngleScrap _angleScrapService;
+        private IScrappingService _angleScrapService;
         private IDocument _documentService;
 
-        public BaseScan(IReplace replace, IAngleScrap angleScrapService, IDocument documentService)
+        public BaseScan(IReplace replace, IScrappingService angleScrapService, IDocument documentService)
         {
             _replace = replace;
             _angleScrapService = angleScrapService;
@@ -26,29 +26,16 @@ namespace Scrapping.DomainServices.Site.Scan
 
         public override async Task<List<Link>> GetAllLinks(int fromChapterNumber = 0)
         {
-            var links = new List<Link>();
-            var elements = await _angleScrapService.GetElements(SiteSelector.Url, SiteSelector.LinkSelector);
+            var scrappingBag = await _angleScrapService.GetScrappingBagWithLinksForScan(SiteSelector.Url, fromChapterNumber, SiteSelector);
 
-            foreach (var element in elements.Skip(fromChapterNumber))
-            {
-                var elem = element as IHtmlAnchorElement;
-                var page = await _angleScrapService.GetElement(elem.Href, SiteSelector.PageSelector);
-                if (page != null)
-                {
-                    var pages = page.QuerySelectorAll(SiteSelector.ListPageSelector);
-                    var chapterName = page.QuerySelector(SiteSelector.ChapterNameSelector);
-                    pages.ToList().ForEach(p => links.Add(new Link() { Href = $"{elem.Href}/{p.TextContent}", Chapter = chapterName.TextContent, Name = $"{int.Parse(p.TextContent):D3}" }));
-                }
-            }
-
-            return links;
+            return scrappingBag.Links;
         }
 
         public override async Task<string> GetMangaName()
         {
-            var element = await _angleScrapService.GetElement(SiteSelector.Url, SiteSelector.NameSelector);
+            var scrappingBag = await _angleScrapService.GetScrappingBagWithTextContent(SiteSelector.Url, SiteSelector.NameSelector);
 
-            return _replace.Content(element.TextContent, "", "[?|:|\"|\\n|/|/]");
+            return _replace.Content(scrappingBag.TextContent, "", "[?|:|\"|\\n|/|/]");
         }
 
         protected override async Task<Result> InnerGenerateFileFromElements(Link link, string folderName)
@@ -59,11 +46,11 @@ namespace Scrapping.DomainServices.Site.Scan
             //_logger.LogInformation($"Trying to dl {link.Name} with url {link.Href}");
             try
             {
-                var element = (IHtmlImageElement)await _angleScrapService.GetElement(link.Href, SiteSelector.ContentSelector);
+                var scrappingBag = await _angleScrapService.GetScrappingBagWithSource(link.Href, SiteSelector.ContentSelector);
 
-                if (!String.IsNullOrEmpty(element.Source))
+                if (!String.IsNullOrEmpty(scrappingBag.Source))
                 {
-                    _documentService.DownloadNewPicture(folderName, link.Name, element.Source, link.Chapter);
+                    _documentService.DownloadNewPicture(folderName, link.Name, scrappingBag.Source, link.Chapter);
                 }
 
                 //_logger.LogInformation($"{link.Name} has been downloaded");

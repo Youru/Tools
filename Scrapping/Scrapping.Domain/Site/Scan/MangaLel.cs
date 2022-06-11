@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using System.Linq;
 using System;
-using AngleSharp.Html.Dom;
 using Scrapping.Domain.Model;
 using Scrapping.Interfaces;
+using Scrapping.Domain.Interfaces;
 
 namespace Scrapping.DomainServices.Site.Scan
 {
@@ -12,10 +12,10 @@ namespace Scrapping.DomainServices.Site.Scan
     {
         public override SiteEnum SiteType => SiteEnum.Mangalel;
         private IReplace _replace;
-        private IAngleScrap _angleScrapService;
+        private IScrappingService _angleScrapService;
         private IDocument _documentService;
 
-        public MangaLel(IReplace replace, IAngleScrap angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
+        public MangaLel(IReplace replace, IScrappingService angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
         {
             _replace = replace;
             _angleScrapService = angleScrapService;
@@ -24,13 +24,9 @@ namespace Scrapping.DomainServices.Site.Scan
 
         public override async Task<List<Link>> GetAllLinks(int fromChapterNumber = 0)
         {
-            var elements = await _angleScrapService.GetElements(SiteSelector.Url, SiteSelector.LinkSelector);
+            var scrappingBag = await _angleScrapService.GetScrappingBagWithLinks(SiteSelector.Url, SiteSelector.LinkSelector);
 
-            return elements.Select(e => new Link()
-            {
-                Href = e.GetAttribute("href"),
-                Name = _replace.Content(((IHtmlAnchorElement)e).PathName, "", "[?|:|\"|\\n|/|/]")
-            }).Skip(fromChapterNumber).ToList();
+            return scrappingBag.Links.Skip(fromChapterNumber).ToList();
         }
 
         protected override async Task<Result> InnerGenerateFileFromElements(Link link, string folderName)
@@ -41,11 +37,11 @@ namespace Scrapping.DomainServices.Site.Scan
             try
             {
                 _documentService.CreateNewFolder(chapterFolder);
-                var elements = await _angleScrapService.GetElements(link.Href, SiteSelector.ContentSelector);
+                var scrappingBag = await _angleScrapService.GetScrappingBagWithSourceByDataset(link.Href, SiteSelector.ContentSelector);
 
-                for (int i = 0; i <= elements.Length; i++)
+                for (int i = 0; i <= scrappingBag.Sources.Count; i++)
                 {
-                    _documentService.DownloadNewPicture(chapterFolder, $"{i + 1}", ((IHtmlImageElement)elements[i]).Dataset["src"]);
+                    _documentService.DownloadNewPicture(chapterFolder, $"{i + 1}", scrappingBag.Sources[i]);
                 }
 
             }

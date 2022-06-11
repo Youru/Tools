@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Scrapping.Domain.Interfaces;
 using Scrapping.Domain.Model;
 using Scrapping.Interfaces;
 
@@ -15,10 +16,10 @@ namespace Scrapping.DomainServices.Site.Novel
 
         public override SiteEnum SiteType => SiteEnum.Webnovel;
         private IReplace _replace;
-        private IAngleScrap _angleScrapService;
+        private IScrappingService _angleScrapService;
 
 
-        public WebNovel(IReplace replace, IAngleScrap angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
+        public WebNovel(IReplace replace, IScrappingService angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
         {
             _replace = replace;
             _angleScrapService = angleScrapService;
@@ -27,21 +28,20 @@ namespace Scrapping.DomainServices.Site.Novel
         public override async Task<List<Link>> GetAllLinks(int fromChapterNumber = 0)
         {
             var url = GetUrlApi(SiteSelector.Url);
-            var textContent = await _angleScrapService.GetTextContent(url);
-            var webNovel = JsonConvert.DeserializeObject<WebNovel>(textContent);
+            var scrappingBag = await _angleScrapService.GetScrappingBagWithTextBodyContent(url);
+            var webNovel = JsonConvert.DeserializeObject<WebNovel>(scrappingBag.TextBodyContent);
 
-            return webNovel.Data.VolumeItems.SelectMany(v => v.ChapterItems).Where(c => c.FeeType != 1).Select(itemChapter => new Link()
-            {
-                Href = $"https://www.{SiteSelector.Resolve}/book/{webNovel.Data.BookInfo.BookId}/{itemChapter.Id}/{webNovel.Data.BookInfo.BookName.Replace(' ', '-')}/{itemChapter.Name.Replace(' ', '-')}",
-                Name = $"{itemChapter.Index:D4} - {_replace.Content(itemChapter.Name, "", "[?|:|\"|\\n|/|/]")}"
-            }).Skip(fromChapterNumber).ToList();
+            return webNovel.Data.VolumeItems.SelectMany(v => v.ChapterItems).Where(c => c.FeeType != 1).Select(itemChapter => new Link(
+                $"https://www.{SiteSelector.Resolve}/book/{webNovel.Data.BookInfo.BookId}/{itemChapter.Id}/{webNovel.Data.BookInfo.BookName.Replace(' ', '-')}/{itemChapter.Name.Replace(' ', '-')}",
+                $"{itemChapter.Index:D4} - {_replace.Content(itemChapter.Name, "", "[?|:|\"|\\n|/|/]")}"))
+                .Skip(fromChapterNumber).ToList();
         }
 
         public override async Task<string> GetMangaName()
         {
             var url = GetUrlApi(SiteSelector.Url);
-            var textContent = await _angleScrapService.GetTextContent(url);
-            var webNovel = JsonConvert.DeserializeObject<WebNovel>(textContent);
+            var scrappingBag = await _angleScrapService.GetScrappingBagWithTextBodyContent(url);
+            var webNovel = JsonConvert.DeserializeObject<WebNovel>(scrappingBag.TextBodyContent);
 
             return _replace.Content(webNovel.Data.BookInfo.BookName, "", "[?|:|\"|\\n|/|/]");
         }
