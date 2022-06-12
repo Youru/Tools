@@ -51,17 +51,27 @@
     "Type": "Gravitytales"
   },
   {
-    "Resolve": "mangareader.net",
-    "ContentSelector": "#img",
-    "LinkSelector": "#chapterlist a",
-    "NameSelector": "#mangaproperties .aname",
+    "Resolve": "scan-fr.org",
+    "ContentSelector": "img",
+    "LinkSelector": ".chapter-title-rtlrr a",
+    "NameSelector": "body>title",
     "WrongParts": [],
-    "PageSelector": "#topchapter",
-    "ListPageSelector": "#selectpage option",
-    "ChapterNameSelector": "#mangainfo div:first-child h1",
+    "PageSelector": ".img-responsive",
+    "ListPageSelector": ".selectpicker li",
+    "ChapterNameSelector": "strong>h1",
     "PatternPageNumber": "\\d+.html",
     "PatternChapterNumber": "Page \\d+",
-    "Type": "Scan"
+    "Type": "ScanJS"
+  },
+  {
+    "Resolve": "mangakakalot.to",
+    "ContentSelector": "img",
+    "LinkSelector": ".card-wrap",
+    "NameSelector": ".breadcrumb-item.active",
+    "WrongParts": [],
+    "PageSelector": "#list-chapter-ko .chapter-name.d-block",
+    "ChapterNameSelector": ".heading-large",
+    "Type": "Mangakakalot"
   },
   {
     "Resolve": "mangapanda.com",

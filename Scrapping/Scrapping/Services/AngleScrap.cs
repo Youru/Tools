@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Scrapping.Services
 {
-    public class AngleScrap : IScrappingService
+    public class AngleScrap : IScrappingService, IScrappingTechnical
     {
 
         private IReplace _replace;
@@ -21,6 +21,27 @@ namespace Scrapping.Services
         public AngleScrap(IReplace replace)
         {
             _replace = replace;
+        }
+
+        public async Task<Dictionary<string, string>> GetDataset(string url, string selector)
+        {
+            var contentSearch = await GetElement(url, selector) as IHtmlDivElement;
+
+            return contentSearch.Dataset.ToDictionary(d => d.Key, d => d.Value);
+        }
+
+        public async Task<string[]> GetUrls(string url, string selector)
+        {
+            var elements = await GetElements(url, selector);
+
+            return elements.Select(e => ((IHtmlAnchorElement)e).Href).ToArray();
+        }
+
+        public async Task<Dictionary<int, string>> GetDatasetsByIndex(string url, string selector)
+        {
+            var contentSearch = await GetElements(url, selector);
+
+            return contentSearch.SelectMany(c => ((IHtmlElement)c).Dataset).Select((d, index) => new { val = d.Value, idx = index }).ToDictionary(d => d.idx, d => d.val);
         }
 
         public async Task<ScrappingBag> GetScrappingBagWithTextBodyContent(string url)
@@ -46,6 +67,8 @@ namespace Scrapping.Services
         {
             ScrappingBag scrappingBag = new();
             var contentSearch = await GetElement(url, selector) as IHtmlImageElement;
+            if (contentSearch is null) return scrappingBag;
+
             scrappingBag.SetSource(contentSearch.Source);
 
             return scrappingBag;
@@ -207,6 +230,5 @@ namespace Scrapping.Services
 
             return false;
         }
-
     }
 }

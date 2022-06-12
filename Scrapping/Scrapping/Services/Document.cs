@@ -29,12 +29,12 @@ namespace Scrapping.Services
 
             try
             {
-                _logger.LogInformation($"{fileName} has been downloaded");
                 File.WriteAllText(filePath, texte.ToString(), Encoding.UTF8);
+                _logger.LogInformation($"{fileName} has been downloaded");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"The generation of the {fileName} has encoutered an issue. ERROR : {ex.Message}");
+                _logger.LogError($"The generation of the {folderName}/{fileName} has encoutered an issue. ERROR : {ex.Message}");
                 throw;
             }
         }
@@ -48,15 +48,16 @@ namespace Scrapping.Services
 
             try
             {
-                _logger.LogInformation($"{fileName} has been downloaded");
+
                 using (WebClient client = new WebClient())
                 {
-                    client.DownloadFile(new Uri(url), filePath);
+                    client.DownloadFile(new Uri(url.Trim()), filePath);
                 }
+                _logger.LogInformation($"{fileName} has been downloaded");
             }
             catch (Exception ex)
             {
-                _logger.LogError($"The generation of the {fileName} has encoutered an issue. ERROR : {ex.Message}");
+                _logger.LogError($"The generation from url {url} has encoutered an issue. ERROR : {ex.Message}");
                 throw;
             }
         }

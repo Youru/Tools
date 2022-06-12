@@ -3,11 +3,13 @@
     public enum SiteEnum
     {
         Scan,
+        ScanJS,
         Novel,
         Gravitytales,
         Wuxiaworld,
         Mangalel,
         Webnovel,
-        Novelfull
+        Novelfull,
+        Mangakakalot
     }
 }

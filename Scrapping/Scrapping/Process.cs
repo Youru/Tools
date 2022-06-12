@@ -8,8 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Scrapping.Domain.Interfaces;
-using Scrapping.Site;
 using Scrapping.Domain.Model;
+using Scrapping.DomainServices.Site;
 
 namespace Scrapping
 {
@@ -34,8 +34,8 @@ namespace Scrapping
             _siteService = _factorySite.GetSite(siteSelector.Type);
             _siteService.SetSiteSelector(siteSelector);
 
-            var links = await _siteService.GetAllLinks(_fromChapterNumber);
             var folderName = await _siteService.GetMangaName();
+            var links = await _siteService.GetAllLinks(_fromChapterNumber);
             _documentService.CreateNewFolder(folderName);
             var linksToDownload = _siteService.RemoveLinksAlreadyDownload(links, folderName);
 

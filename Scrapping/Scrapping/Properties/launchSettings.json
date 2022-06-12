@@ -2,7 +2,7 @@
   "profiles": {
     "Scrapping": {
       "commandName": "Project",
-      "commandLineArgs": "-u \"https://www.readlightnovel.me/overgeared-052322\" -f 1635"
+      "commandLineArgs": "-u \"https://www.scan-fr.org/manga/your-sssrank-afterlife-is-confirmed-virtuous-old-man\""
     }
   }
 }

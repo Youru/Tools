@@ -4,14 +4,14 @@ using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Extensions.Logging;
 using Scrapping.Domain.Interfaces;
+using Scrapping.DomainServices.Site;
 using Scrapping.Interfaces;
 using Scrapping.Services;
-using Scrapping.Site;
 using System;
 
 namespace Scrapping
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -43,6 +43,7 @@ namespace Scrapping
             services.AddSingleton<IDocument, Document>();
             services.AddSingleton<IReplace, Replace>();
             services.AddSingleton<IScrappingService, AngleScrap>();
+            services.AddSingleton<IScrappingTechnical, AngleScrap>();
             services.AddSingleton<FactorySite>();
             FactorySite.Configures(ref services);
             services.AddLogging(loggingBuilder =>

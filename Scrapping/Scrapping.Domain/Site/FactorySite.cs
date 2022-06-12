@@ -5,7 +5,7 @@ using Scrapping.DomainServices.Site.Scan;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Scrapping.Site
+namespace Scrapping.DomainServices.Site
 {
     public class FactorySite
     {
@@ -26,6 +26,8 @@ namespace Scrapping.Site
             services.AddSingleton<ISite, WuxiaWorld>();
 
             services.AddSingleton<ISite, BaseScan>();
+            services.AddSingleton<ISite, ScanJs>();
+            services.AddSingleton<ISite, Mangakakalot>();
             services.AddSingleton<ISite, MangaLel>();
         }
     }
