@@ -10,13 +10,9 @@ namespace Scrapping.DomainServices.Site.Novel
     public class WuxiaWorld : BaseNovel
     {
         public override SiteEnum SiteType => SiteEnum.Wuxiaworld;
-        private IReplace _replace;
-        private IScrappingService _angleScrapService;
 
         public WuxiaWorld(IReplace replace, IScrappingService angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
         {
-            _replace = replace;
-            _angleScrapService = angleScrapService;
         }
 
         public override async Task<List<Link>> GetAllLinks(int fromChapterNumber = 0)

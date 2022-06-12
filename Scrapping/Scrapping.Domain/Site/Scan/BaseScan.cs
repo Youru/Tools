@@ -13,9 +13,9 @@ namespace Scrapping.DomainServices.Site.Scan
     public class BaseScan : AbstractSite
     {
         public override SiteEnum SiteType => SiteEnum.Scan;
-        private IReplace _replace;
-        private IScrappingService _angleScrapService;
-        private IDocument _documentService;
+        protected IReplace _replace;
+        protected IScrappingService _angleScrapService;
+        protected IDocument _documentService;
 
         public BaseScan(IReplace replace, IScrappingService angleScrapService, IDocument documentService)
         {

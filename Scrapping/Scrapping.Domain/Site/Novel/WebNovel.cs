@@ -15,14 +15,10 @@ namespace Scrapping.DomainServices.Site.Novel
         public Data Data { get; set; }
 
         public override SiteEnum SiteType => SiteEnum.Webnovel;
-        private IReplace _replace;
-        private IScrappingService _angleScrapService;
 
 
         public WebNovel(IReplace replace, IScrappingService angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
         {
-            _replace = replace;
-            _angleScrapService = angleScrapService;
         }
 
         public override async Task<List<Link>> GetAllLinks(int fromChapterNumber = 0)

@@ -10,9 +10,9 @@ namespace Scrapping.DomainServices.Site.Novel
 {
     public class BaseNovel : AbstractSite
     {
-        private IReplace _replace;
-        private IScrappingService _angleScrapService;
-        private IDocument _documentService;
+        protected IReplace _replace;
+        protected IScrappingService _angleScrapService;
+        protected IDocument _documentService;
 
         public override SiteEnum SiteType => SiteEnum.Novel;
 
