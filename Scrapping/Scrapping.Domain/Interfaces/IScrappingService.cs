@@ -7,9 +7,7 @@ namespace Scrapping.Domain.Interfaces
     public interface IScrappingService
     {
         Task<ScrappingBag> GetScrappingBagWithTextContent(string url, string selector);
-        Task<ScrappingBag> GetScrappingBagWithTextBodyContent(string url);
         Task<ScrappingBag> GetScrappingBagWithSource(string url, string selector);
-        Task<ScrappingBag> GetScrappingBagWithSourceByDataset(string url, string selector);
         Task<ScrappingBag> GetScrappingBagWithChapterContent(string url, string selector, string[] wrongParts);
         Task<ScrappingBag> GetScrappingBagWithLink(string url, string selector);
         Task<List<ScrappingBag>> GetScrappingBagWithUrls(string url, string selector);

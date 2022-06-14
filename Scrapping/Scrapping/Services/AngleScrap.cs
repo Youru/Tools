@@ -44,16 +44,6 @@ namespace Scrapping.Services
             return contentSearch.SelectMany(c => ((IHtmlElement)c).Dataset).Select((d, index) => new { val = d.Value, idx = index }).ToDictionary(d => d.idx, d => d.val);
         }
 
-        public async Task<ScrappingBag> GetScrappingBagWithTextBodyContent(string url)
-        {
-            ScrappingBag scrappingBag = new();
-            var context = GetContext();
-
-            var document = await context.OpenAsync(url);
-            scrappingBag.SetTextBodyContent(document.Body.TextContent);
-
-            return scrappingBag;
-        }
         public async Task<ScrappingBag> GetScrappingBagWithTextContent(string url, string selector)
         {
             ScrappingBag scrappingBag = new();
@@ -70,18 +60,6 @@ namespace Scrapping.Services
             if (contentSearch is null) return scrappingBag;
 
             scrappingBag.SetSource(contentSearch.Source);
-
-            return scrappingBag;
-        }
-        public async Task<ScrappingBag> GetScrappingBagWithSourceByDataset(string url, string selector)
-        {
-            ScrappingBag scrappingBag = new();
-            var contentSearch = await GetElements(url, selector);
-
-            for (int i = 0; i <= contentSearch.Length; i++)
-            {
-                scrappingBag.SetSources(((IHtmlImageElement)contentSearch[i]).Dataset["src"]);
-            }
 
             return scrappingBag;
         }
@@ -107,7 +85,7 @@ namespace Scrapping.Services
 
             var text = _replace.Content(((IHtmlAnchorElement)element)?.PathName, "", "[*|?|:|\"|\\n|/|/]");
 
-            scrappingBag.SetUrlAndText(element?.GetAttribute("href"), text);
+            scrappingBag.SetLink(element?.GetAttribute("href"), text);
 
 
             return scrappingBag;
@@ -122,7 +100,7 @@ namespace Scrapping.Services
                 ScrappingBag scrappingBag = new();
                 var text = _replace.Content(((IHtmlAnchorElement)element)?.PathName, "", "[*|?|:|\"|\\n|/|/]");
 
-                scrappingBag.SetUrlAndText(element?.GetAttribute("href"), text);
+                scrappingBag.SetLink(element?.GetAttribute("href"), text);
 
                 scrappingsBags.Add(scrappingBag);
             }
@@ -133,13 +111,12 @@ namespace Scrapping.Services
         {
             ScrappingBag scrappingBag = new();
             var pageSelector = await GetElements(url, siteSelector.PageSelector);
-            string nextUrl = null;
 
             if (pageSelector.Length > 0)
             {
                 var numberPageSelection = await GetElements(url, siteSelector.ListPageSelector);
-                nextUrl = $"{siteSelector.Url}?page={Int32.Parse(numberPageSelection[0].TextContent) + 1}";
-                scrappingBag.SetUrl(nextUrl);
+                var nextUrl = $"{siteSelector.Url}?page={Int32.Parse(numberPageSelection[0].TextContent) + 1}";
+                scrappingBag.SetLink(nextUrl);
             }
 
             return scrappingBag;

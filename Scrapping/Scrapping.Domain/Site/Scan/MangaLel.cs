@@ -11,15 +11,11 @@ namespace Scrapping.DomainServices.Site.Scan
     public class MangaLel : BaseScan
     {
         public override SiteEnum SiteType => SiteEnum.Mangalel;
-        private IReplace _replace;
-        private IScrappingService _angleScrapService;
-        private IDocument _documentService;
+        private IScrappingTechnical _scrappingTechnical;
 
-        public MangaLel(IReplace replace, IScrappingService angleScrapService, IDocument documentService) : base(replace, angleScrapService, documentService)
+        public MangaLel(IReplace replace, IScrappingService angleScrapService, IDocument documentService, IScrappingTechnical scrappingTechnical) : base(replace, angleScrapService, documentService)
         {
-            _replace = replace;
-            _angleScrapService = angleScrapService;
-            _documentService = documentService;
+            _scrappingTechnical = scrappingTechnical;
         }
 
         public override async Task<List<Link>> GetAllLinks(int fromChapterNumber = 0)
@@ -37,11 +33,11 @@ namespace Scrapping.DomainServices.Site.Scan
             try
             {
                 _documentService.CreateNewFolder(chapterFolder);
-                var scrappingBag = await _angleScrapService.GetScrappingBagWithSourceByDataset(link.Href, SiteSelector.ContentSelector);
+                var images = await _scrappingTechnical.GetDatasetsByIndex(link.Href, SiteSelector.ContentSelector);
 
-                for (int i = 0; i <= scrappingBag.Sources.Count; i++)
+                foreach (var image in images)
                 {
-                    _documentService.DownloadNewPicture(chapterFolder, $"{i + 1}", scrappingBag.Sources[i]);
+                    _documentService.DownloadNewPicture(chapterFolder, $"{image.Key}", image.Value);
                 }
 
             }

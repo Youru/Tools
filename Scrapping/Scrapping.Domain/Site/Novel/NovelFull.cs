@@ -27,7 +27,7 @@ namespace Scrapping.DomainServices.Site.Novel
                 listLink.AddRange(scrappingBag.Links);
 
                 var scrappingBagWithUrl = await _angleScrapService.GetScrappingBagWithNextPageUrl(pageUrl, SiteSelector);
-                pageUrl = scrappingBagWithUrl.Url;
+                pageUrl = scrappingBagWithUrl.Link.Href;
                 lastPage = pageUrl == null;
             }
 

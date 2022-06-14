@@ -22,7 +22,6 @@ namespace Scrapping.DomainServices.Site
             services.AddSingleton<ISite, BaseNovel>();
             services.AddSingleton<ISite, Gravitytales>();
             services.AddSingleton<ISite, NovelFull>();
-            services.AddSingleton<ISite, WebNovel>();
             services.AddSingleton<ISite, WuxiaWorld>();
 
             services.AddSingleton<ISite, BaseScan>();

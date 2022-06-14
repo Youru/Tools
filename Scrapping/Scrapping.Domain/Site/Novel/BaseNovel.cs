@@ -50,13 +50,13 @@ namespace Scrapping.DomainServices.Site.Novel
             while (true)
             {
                 var scrappingBag = _angleScrapService.GetScrappingBagWithLink(nextChapterUrl, SiteSelector.NextChapterSelector).Result;
-
-                if (scrappingBag.Url == null || links.Count > 0 && scrappingBag.Url == links.Last()?.Href)
+                var link = scrappingBag.Link;
+                if (link == null || links.Count > 0 && link.Href == links.Last()?.Href)
                 {
                     break;
                 }
-                nextChapterUrl = scrappingBag.Link.Href;
-                links.Add(scrappingBag.Link);
+                nextChapterUrl = link.Href;
+                links.Add(link);
             }
 
             return links;
