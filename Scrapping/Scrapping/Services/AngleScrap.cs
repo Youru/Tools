@@ -185,8 +185,8 @@ namespace Scrapping.Services
         {
             var context = GetContext();
 
-            await context.OpenAsync(url);
-            var contentSearch = context.Active.QuerySelectorAll(selector);
+            var document = await context.OpenAsync(url);
+            var contentSearch = document.QuerySelectorAll(selector);
 
             return contentSearch;
         }
@@ -195,7 +195,7 @@ namespace Scrapping.Services
             var configuration = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(configuration);
 
-            return (BrowsingContext)context;
+            return context;
         }
         private bool IfElementContainsWrongPart(IElement element, string[] wrongParts)
         {

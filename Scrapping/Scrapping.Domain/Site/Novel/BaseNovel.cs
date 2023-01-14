@@ -84,6 +84,10 @@ namespace Scrapping.DomainServices.Site.Novel
                     }
                     i++;
                 }
+                if(i == 3)
+                {
+                    throw new Exception("No content generated");
+                }
             }
             catch (Exception ex)
             {

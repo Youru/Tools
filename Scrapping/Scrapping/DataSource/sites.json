@@ -1,13 +1,5 @@
 ﻿[
   {
-    "Resolve": "weedsroyalroad.wordpress.com",
-    "ContentSelector": ".article-wrapper",
-    "LinkSelector": ".entry-content a",
-    "NameSelector": ".site-branding .site-description",
-    "WrongParts": [],
-    "Type": "Novel"
-  },
-  {
     "Resolve": "wuxiaworld.com",
     "ContentSelector": ".fr-view p",
     "LinkSelector": ".chapter-item a",
@@ -26,14 +18,6 @@
     "Type": "Novel"
   },
   {
-    "Resolve": "royalroadweed.blogspot.fr/",
-    "ContentSelector": ".pagepost .cover,#content .post-content",
-    "LinkSelector": ".post-entry a",
-    "NameSelector": ".post-header h1",
-    "WrongParts": [],
-    "Type": "Novel"
-  },
-  {
     "Resolve": "readlightnovel",
     "ContentSelector": "#growfoodsmart",
     "LinkSelector": ".chapter-chs li a",
@@ -41,14 +25,6 @@
     "NextChapterSelector": ".next.next-link",
     "WrongParts": [],
     "Type": "Novel"
-  },
-  {
-    "Resolve": "gravitytales",
-    "ContentSelector": ".entry-content .innerContent ",
-    "LinkSelector": ".tab-content a",
-    "NameSelector": "#contentElement h3",
-    "WrongParts": [],
-    "Type": "Gravitytales"
   },
   {
     "Resolve": "scan-fr.org",
@@ -74,27 +50,6 @@
     "Type": "Mangakakalot"
   },
   {
-    "Resolve": "mangapanda.com",
-    "ContentSelector": "#img",
-    "LinkSelector": "#chapterlist a",
-    "NameSelector": "#mangaproperties .aname",
-    "WrongParts": [],
-    "PageSelector": "#topchapter",
-    "ListPageSelector": "#selectpage option",
-    "ChapterNameSelector": "#mangainfo div:first-child h1",
-    "PatternPageNumber": "\\d+.html",
-    "PatternChapterNumber": "Page \\d+",
-    "Type": "Scan"
-  },
-  {
-    "Resolve": "manga-lel.com",
-    "ContentSelector": ".img-responsive",
-    "LinkSelector": ".chapter-title-rtl a",
-    "NameSelector": ".widget-title",
-    "WrongParts": [],
-    "Type": "Mangalel"
-  },
-  {
     "Resolve": "novelfull",
     "ContentSelector": "#chapter-content ",
     "LinkSelector": ".list-chapter a",
@@ -103,5 +58,15 @@
     "NameSelector": ".books h3",
     "WrongParts": [],
     "Type": "Novelfull"
+  },
+  {
+    "Resolve": "novelpub",
+    "ContentSelector": "#chapter-container",
+    "LinkSelector": ".chapter-list a",
+    "PageSelector": ".PagedList-skipToNext a",
+    "ListPageSelector": ".pagination .active",
+    "NameSelector": ".item-body .text2row",
+    "WrongParts": [],
+    "Type": "Novelpub"
   }
 ]

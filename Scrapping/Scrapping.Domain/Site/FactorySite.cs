@@ -20,14 +20,13 @@ namespace Scrapping.DomainServices.Site
         public static void Configures(ref IServiceCollection services)
         {
             services.AddSingleton<ISite, BaseNovel>();
-            services.AddSingleton<ISite, Gravitytales>();
             services.AddSingleton<ISite, NovelFull>();
+            services.AddSingleton<ISite, NovelPub>();
             services.AddSingleton<ISite, WuxiaWorld>();
 
             services.AddSingleton<ISite, BaseScan>();
             services.AddSingleton<ISite, ScanJs>();
             services.AddSingleton<ISite, Mangakakalot>();
-            services.AddSingleton<ISite, MangaLel>();
         }
     }
 }

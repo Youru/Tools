@@ -2,7 +2,7 @@
   "profiles": {
     "Scrapping": {
       "commandName": "Project",
-      "commandLineArgs": "-u \"https://www.scan-fr.org/manga/your-sssrank-afterlife-is-confirmed-virtuous-old-man\""
+      "commandLineArgs": "-u \"https://www.novelpub.com/novel/regressor-instruction-manual-29121058/chapters\""
     }
   }
 }

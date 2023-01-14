@@ -5,11 +5,10 @@
         Scan,
         ScanJS,
         Novel,
-        Gravitytales,
         Wuxiaworld,
-        Mangalel,
         Webnovel,
         Novelfull,
+        Novelpub,
         Mangakakalot
     }
 }
